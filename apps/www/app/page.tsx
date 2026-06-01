@@ -1,4 +1,4 @@
-import { Button } from "@repo/ui/button";
+import { Button } from "@/components/ui/button";
 
 export default function Home() {
   return (
@@ -11,7 +11,7 @@ export default function Home() {
           Generate beautiful featured images for your blog posts, social media,
           and more. Phase 0 scaffold complete.
         </p>
-        <Button appName="www" className="rounded-full bg-black text-white px-6 py-2 text-sm font-medium hover:bg-zinc-800 transition-colors">
+        <Button className="rounded-full px-8" size="lg">
           Get started
         </Button>
       </main>

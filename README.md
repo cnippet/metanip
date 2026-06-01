@@ -1,159 +1,100 @@
-# Turborepo starter
+# Metanip — Featured Image Generator
 
-This Turborepo starter is maintained by the Turborepo core team.
+A hybrid featured-image generation tool. Browser-based live editor for humans, Satori-based API endpoint for automation. Built as a Turborepo monorepo.
 
-## Using this example
+## What it does
 
-Run the following command:
+1. Paste a URL, upload a Markdown/MDX file, or fill a form
+2. Metadata is extracted automatically
+3. Pick a template from a grid
+4. Auto-filled preview appears — download directly or enter edit mode to tweak background, fonts, colors, layout
+5. Logged-in users can save presets and view generation history
+6. Developers can hit `GET /api/og?...` to generate images programmatically
 
-```sh
-npx create-turbo@latest
+## Tech stack
+
+| Layer | Choice |
+|---|---|
+| Framework | Next.js 16 (App Router) |
+| Monorepo | Turborepo + Bun |
+| Language | TypeScript (strict) |
+| Styling | Tailwind CSS v4 |
+| Database | PostgreSQL + Prisma v7 |
+| Auth | better-auth (Google OAuth + magic link via Resend) |
+| Email | Resend |
+| Storage | Cloudinary / Cloudflare R2 |
+| Browser → PNG | `html-to-image` |
+| Server → PNG | `@vercel/og` (Satori) |
+| State | Zustand + React Hook Form + Zod |
+
+## Monorepo structure
+
+```
+metanip/
+├── apps/
+│   └── www/               # Next.js 16 app
+├── packages/
+│   ├── auth/              # better-auth config + email templates
+│   ├── database/          # Prisma client + schema
+│   ├── email/             # Resend email templates (Phase 5)
+│   ├── metadata/          # Zod schema + scraper + markdown parser
+│   ├── storage/           # Cloudinary/R2 abstraction (Phase 6)
+│   ├── templates/         # Dual-renderer templates + registry
+│   ├── ui/                # Shared React components
+│   ├── eslint-config/     # Shared ESLint flat configs
+│   └── typescript-config/ # Shared tsconfig presets
 ```
 
-## What's inside?
+## Setup
 
-This Turborepo includes the following packages/apps:
+### Prerequisites
 
-### Apps and Packages
+- [Bun](https://bun.sh) >= 1.3
+- Node.js >= 18
+- PostgreSQL database
 
-- `docs`: a [Next.js](https://nextjs.org/) app
-- `web`: another [Next.js](https://nextjs.org/) app
-- `@repo/ui`: a stub React component library shared by both `web` and `docs` applications
-- `@repo/eslint-config`: `eslint` configurations (includes `eslint-config-next` and `eslint-config-prettier`)
-- `@repo/typescript-config`: `tsconfig.json`s used throughout the monorepo
-
-Each package/app is 100% [TypeScript](https://www.typescriptlang.org/).
-
-### Utilities
-
-This Turborepo has some additional tools already setup for you:
-
-- [TypeScript](https://www.typescriptlang.org/) for static type checking
-- [ESLint](https://eslint.org/) for code linting
-- [Prettier](https://prettier.io) for code formatting
-
-### Build
-
-To build all apps and packages, run the following command:
-
-With [global `turbo`](https://turborepo.dev/docs/getting-started/installation#global-installation) installed (recommended):
+### Install
 
 ```sh
-cd my-turborepo
-turbo build
+bun install
 ```
 
-Without global `turbo`, use your package manager:
+### Environment variables
+
+Copy `.env.example` to `apps/www/.env.local` and fill in your values:
 
 ```sh
-cd my-turborepo
-npx turbo build
-bun dlx turbo build
-bun exec turbo build
+cp .env.example apps/www/.env.local
 ```
 
-You can build a specific package by using a [filter](https://turborepo.dev/docs/crafting-your-repository/running-tasks#using-filters):
-
-With [global `turbo`](https://turborepo.dev/docs/getting-started/installation#global-installation) installed:
+### Database
 
 ```sh
-turbo build --filter=docs
-```
-
-Without global `turbo`:
-
-```sh
-npx turbo build --filter=docs
-bun exec turbo build --filter=docs
-bun exec turbo build --filter=docs
+# Push schema and generate client
+bun --filter @repo/database db:push
+bun --filter @repo/database generate
 ```
 
 ### Develop
 
-To develop all apps and packages, run the following command:
-
-With [global `turbo`](https://turborepo.dev/docs/getting-started/installation#global-installation) installed (recommended):
-
 ```sh
-cd my-turborepo
-turbo dev
+bun dev
 ```
 
-Without global `turbo`, use your package manager:
+Opens the app at [http://localhost:3000](http://localhost:3000).
+
+### Build
 
 ```sh
-cd my-turborepo
-npx turbo dev
-bun exec turbo dev
-bun exec turbo dev
+bun run build
 ```
 
-You can develop a specific package by using a [filter](https://turborepo.dev/docs/crafting-your-repository/running-tasks#using-filters):
-
-With [global `turbo`](https://turborepo.dev/docs/getting-started/installation#global-installation) installed:
+### Lint
 
 ```sh
-turbo dev --filter=web
+bun run lint
 ```
 
-Without global `turbo`:
+## Implementation phases
 
-```sh
-npx turbo dev --filter=web
-bun exec turbo dev --filter=web
-bun exec turbo dev --filter=web
-```
-
-### Remote Caching
-
-> [!TIP]
-> Vercel Remote Cache is free for all plans. Get started today at [vercel.com](https://vercel.com/signup?utm_source=remote-cache-sdk&utm_campaign=free_remote_cache).
-
-Turborepo can use a technique known as [Remote Caching](https://turborepo.dev/docs/core-concepts/remote-caching) to share cache artifacts across machines, enabling you to share build caches with your team and CI/CD pipelines.
-
-By default, Turborepo will cache locally. To enable Remote Caching you will need an account with Vercel. If you don't have an account you can [create one](https://vercel.com/signup?utm_source=turborepo-examples), then enter the following commands:
-
-With [global `turbo`](https://turborepo.dev/docs/getting-started/installation#global-installation) installed (recommended):
-
-```sh
-cd my-turborepo
-turbo login
-```
-
-Without global `turbo`, use your package manager:
-
-```sh
-cd my-turborepo
-npx turbo login
-bun exec turbo login
-bun exec turbo login
-```
-
-This will authenticate the Turborepo CLI with your [Vercel account](https://vercel.com/docs/concepts/personal-accounts/overview).
-
-Next, you can link your Turborepo to your Remote Cache by running the following command from the root of your Turborepo:
-
-With [global `turbo`](https://turborepo.dev/docs/getting-started/installation#global-installation) installed:
-
-```sh
-turbo link
-```
-
-Without global `turbo`:
-
-```sh
-npx turbo link
-bun exec turbo link
-bun exec turbo link
-```
-
-## Useful Links
-
-Learn more about the power of Turborepo:
-
-- [Tasks](https://turborepo.dev/docs/crafting-your-repository/running-tasks)
-- [Caching](https://turborepo.dev/docs/crafting-your-repository/caching)
-- [Remote Caching](https://turborepo.dev/docs/core-concepts/remote-caching)
-- [Filtering](https://turborepo.dev/docs/crafting-your-repository/running-tasks#using-filters)
-- [Configuration Options](https://turborepo.dev/docs/reference/configuration)
-- [CLI Usage](https://turborepo.dev/docs/reference/command-line-reference)
+See [IMPLEMENTATION_PLAN.md](./IMPLEMENTATION_PLAN.md) for the full phase-by-phase roadmap.

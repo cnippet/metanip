@@ -1,6 +1,7 @@
 import type { TemplateCategory, TemplateDefinition } from "./shared/types";
+import { minimalCard } from "./minimal-card/definition";
 
-export const templates: TemplateDefinition[] = [];
+export const templates: TemplateDefinition[] = [minimalCard];
 
 export function getTemplate(id: string): TemplateDefinition | undefined {
   return templates.find((t) => t.id === id);
