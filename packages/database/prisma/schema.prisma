@@ -1,0 +1,90 @@
+datasource db {
+  provider = "postgresql"
+}
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../generated/prisma"
+}
+
+// better-auth core models (snake_case table names via @@map)
+model user {
+  id            String   @id
+  name          String
+  email         String   @unique
+  emailVerified Boolean
+  image         String?
+  createdAt     DateTime
+  updatedAt     DateTime
+  cId           String?  @unique
+  pro           Boolean  @default(false)
+
+  sessions    session[]
+  accounts    account[]
+  presets     Preset[]
+  generations Generation[]
+}
+
+model session {
+  id        String   @id
+  expiresAt DateTime
+  token     String   @unique
+  createdAt DateTime
+  updatedAt DateTime
+  ipAddress String?
+  userAgent String?
+  userId    String
+  user      user     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model account {
+  id                    String    @id
+  accountId             String
+  providerId            String
+  userId                String
+  user                  user      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  accessToken           String?
+  refreshToken          String?
+  idToken               String?
+  accessTokenExpiresAt  DateTime?
+  refreshTokenExpiresAt DateTime?
+  scope                 String?
+  password              String?
+  createdAt             DateTime
+  updatedAt             DateTime
+}
+
+model verification {
+  id         String    @id
+  identifier String
+  value      String
+  expiresAt  DateTime
+  createdAt  DateTime?
+  updatedAt  DateTime?
+}
+
+// App-specific models
+model Preset {
+  id             String   @id @default(cuid())
+  userId         String
+  user           user     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  name           String
+  templateId     String
+  metadata       Json
+  customizations Json
+  dimensions     Json
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+}
+
+model Generation {
+  id             String   @id @default(cuid())
+  userId         String?
+  user           user?    @relation(fields: [userId], references: [id], onDelete: SetNull)
+  templateId     String
+  imageUrl       String?
+  imagePublicId  String?
+  metadata       Json
+  customizations Json
+  createdAt      DateTime @default(now())
+}

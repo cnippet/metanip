@@ -1,0 +1,33 @@
+{
+  "dependencies": {
+    "@react-email/components": "^1.0.12",
+    "@react-email/render": "^2.0.8",
+    "@repo/database": "workspace:*",
+    "better-auth": "^1.6.9",
+    "crypto": "^1.0.1",
+    "resend": "^6.12.3",
+    "server-only": "^0.0.1"
+  },
+  "devDependencies": {
+    "@repo/typescript-config": "workspace:*",
+    "@types/react": "^19.2.14",
+    "typescript": "^6.0.3"
+  },
+  "exports": {
+    "./client": {
+      "default": "./dist/client.js",
+      "types": "./dist/client.d.ts"
+    },
+    "./server": {
+      "default": "./dist/server.js",
+      "types": "./dist/server.d.ts"
+    }
+  },
+  "name": "@repo/auth",
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc --watch"
+  },
+  "type": "module",
+  "version": "1.0.0"
+}
