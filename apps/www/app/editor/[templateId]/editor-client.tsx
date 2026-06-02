@@ -5,15 +5,39 @@ import {
   type CustomizationControl,
   getTemplate,
   type TemplateDefinition,
+  type Dimension,
 } from "@repo/templates";
-import { ArrowLeftIcon, DownloadIcon, RotateCcwIcon } from "lucide-react";
+import { useSession } from "@repo/auth/client";
+import {
+  ArrowLeftIcon,
+  BookmarkIcon,
+  DownloadIcon,
+  FolderOpenIcon,
+  RotateCcwIcon,
+} from "lucide-react";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import {
+  Dialog,
+  DialogClose,
+  DialogContent,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/menu";
 import {
   Select,
   SelectItem,
@@ -28,6 +52,18 @@ import { Tabs, TabsList, TabsPanel, TabsTab } from "@/components/ui/tabs";
 import { Textarea } from "@/components/ui/textarea";
 import { toastManager } from "@/components/ui/toast";
 import { useEditorStore } from "@/lib/editor-store";
+
+// ─── Types ────────────────────────────────────────────────────────────────────
+
+type SavedPreset = {
+  id: string;
+  name: string;
+  templateId: string;
+  metadata: unknown;
+  customizations: unknown;
+  dimensions: unknown;
+  createdAt: string;
+};
 
 // ─── Utils ────────────────────────────────────────────────────────────────────
 
@@ -433,16 +469,79 @@ function PreviewContainer({
   );
 }
 
+// ─── Save preset modal ────────────────────────────────────────────────────────
+
+function SavePresetModal({
+  open,
+  onOpenChange,
+  onSave,
+  saving,
+}: {
+  open: boolean;
+  onOpenChange: (open: boolean) => void;
+  onSave: (name: string) => void;
+  saving: boolean;
+}) {
+  const [name, setName] = useState("");
+
+  function handleSubmit(e: React.FormEvent) {
+    e.preventDefault();
+    if (name.trim()) onSave(name.trim());
+  }
+
+  return (
+    <Dialog open={open} onOpenChange={onOpenChange}>
+      <DialogContent showCloseButton>
+        <form onSubmit={handleSubmit}>
+          <DialogHeader>
+            <DialogTitle>Save preset</DialogTitle>
+          </DialogHeader>
+          <div className="px-6 py-4">
+            <div className="flex flex-col gap-1.5">
+              <Label htmlFor="preset-name">Preset name</Label>
+              <Input
+                autoFocus
+                id="preset-name"
+                nativeInput
+                onChange={(e) => setName((e.target as HTMLInputElement).value)}
+                placeholder="My awesome preset"
+                required
+                value={name}
+              />
+            </div>
+          </div>
+          <DialogFooter>
+            <DialogClose render={<Button variant="outline" type="button" />}>
+              Cancel
+            </DialogClose>
+            <Button disabled={!name.trim()} loading={saving} type="submit">
+              Save
+            </Button>
+          </DialogFooter>
+        </form>
+      </DialogContent>
+    </Dialog>
+  );
+}
+
 // ─── Top bar ──────────────────────────────────────────────────────────────────
 
 function EditorTopbar({
   template,
   onDownload,
   downloading,
+  isLoggedIn,
+  presets,
+  onOpenSaveModal,
+  onLoadPreset,
 }: {
   template: TemplateDefinition;
   onDownload: () => void;
   downloading: boolean;
+  isLoggedIn: boolean;
+  presets: SavedPreset[];
+  onOpenSaveModal: () => void;
+  onLoadPreset: (preset: SavedPreset) => void;
 }) {
   const dimensions = useEditorStore((s) => s.dimensions);
   const setDimensions = useEditorStore((s) => s.setDimensions);
@@ -462,6 +561,49 @@ function EditorTopbar({
       <Badge variant="secondary">{template.category}</Badge>
 
       <div className="flex-1" />
+
+      {/* Load preset */}
+      {isLoggedIn && (
+        <DropdownMenu>
+          <DropdownMenuTrigger render={<Button size="sm" variant="ghost" />}>
+            <FolderOpenIcon />
+            <span className="hidden sm:inline">Load preset</span>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent align="end">
+            <DropdownMenuLabel>Saved presets</DropdownMenuLabel>
+            <DropdownMenuSeparator />
+            {presets.length === 0 ? (
+              <div className="px-2 py-3 text-xs text-muted-foreground text-center">
+                No presets saved yet
+              </div>
+            ) : (
+              presets.map((p) => (
+                <DropdownMenuItem key={p.id} onClick={() => onLoadPreset(p)}>
+                  {p.name}
+                </DropdownMenuItem>
+              ))
+            )}
+          </DropdownMenuContent>
+        </DropdownMenu>
+      )}
+
+      {/* Save preset */}
+      {isLoggedIn ? (
+        <Button onClick={onOpenSaveModal} size="sm" variant="outline">
+          <BookmarkIcon />
+          <span className="hidden sm:inline">Save preset</span>
+        </Button>
+      ) : (
+        <Button
+          render={<Link href="/login" />}
+          size="sm"
+          title="Sign in to save presets"
+          variant="outline"
+        >
+          <BookmarkIcon />
+          <span className="hidden sm:inline">Save preset</span>
+        </Button>
+      )}
 
       {/* Dimension switcher */}
       <Select
@@ -501,11 +643,17 @@ function EditorTopbar({
 export function EditorClient({ templateId }: { templateId: string }) {
   const template = useMemo(() => getTemplate(templateId)!, [templateId]);
   const { init, resetCustomizations, ...store } = useEditorStore();
+  const { data: session } = useSession();
+  const isLoggedIn = Boolean(session?.user);
   const searchParams = useSearchParams();
   const [isReady, setIsReady] = useState(false);
   const [downloading, setDownloading] = useState(false);
+  const [saveModalOpen, setSaveModalOpen] = useState(false);
+  const [savingPreset, setSavingPreset] = useState(false);
+  const [presets, setPresets] = useState<SavedPreset[]>([]);
   const previewRef = useRef<HTMLDivElement>(null);
 
+  // Load initial editor state
   useEffect(() => {
     const mid = searchParams.get("mid");
     let metadata = MetadataSchema.parse({
@@ -532,6 +680,55 @@ export function EditorClient({ templateId }: { templateId: string }) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [template.id]);
 
+  // Fetch presets for this template when logged in
+  useEffect(() => {
+    if (!isLoggedIn) return;
+    fetch(`/api/presets?templateId=${templateId}`)
+      .then((r) => r.json())
+      .then((data: { presets?: SavedPreset[] }) => setPresets(data.presets ?? []))
+      .catch(() => {});
+  }, [isLoggedIn, templateId]);
+
+  async function handleSavePreset(name: string) {
+    setSavingPreset(true);
+    try {
+      const res = await fetch("/api/presets", {
+        body: JSON.stringify({
+          name,
+          templateId,
+          metadata: store.metadata,
+          customizations: store.customizations,
+          dimensions: store.dimensions,
+        }),
+        headers: { "content-type": "application/json" },
+        method: "POST",
+      });
+      if (!res.ok) throw new Error("Failed");
+      const data = (await res.json()) as { preset: SavedPreset };
+      setPresets((prev) => [data.preset, ...prev]);
+      setSaveModalOpen(false);
+      toastManager.add({ title: "Preset saved!", type: "success" });
+    } catch {
+      toastManager.add({ title: "Failed to save preset", type: "error" });
+    } finally {
+      setSavingPreset(false);
+    }
+  }
+
+  function handleLoadPreset(preset: SavedPreset) {
+    try {
+      init({
+        templateId,
+        metadata: MetadataSchema.parse(preset.metadata),
+        customizations: preset.customizations as Record<string, unknown>,
+        dimensions: preset.dimensions as Dimension,
+      });
+      toastManager.add({ title: `Loaded "${preset.name}"`, type: "success" });
+    } catch {
+      toastManager.add({ title: "Failed to load preset", type: "error" });
+    }
+  }
+
   async function handleDownload() {
     if (!previewRef.current) return;
     setDownloading(true);
@@ -543,11 +740,27 @@ export function EditorClient({ templateId }: { templateId: string }) {
         pixelRatio: 1,
         width: w,
       });
+
+      // Trigger browser download
       const a = document.createElement("a");
       a.download = `${slugify(store.metadata.title)}-${templateId}.png`;
       a.href = png;
       a.click();
       toastManager.add({ title: "Downloaded!", type: "success" });
+
+      // Track generation when logged in (fire-and-forget)
+      if (isLoggedIn) {
+        fetch("/api/generations", {
+          body: JSON.stringify({
+            templateId,
+            metadata: store.metadata,
+            customizations: store.customizations,
+            dataUrl: png,
+          }),
+          headers: { "content-type": "application/json" },
+          method: "POST",
+        }).catch(() => {});
+      }
     } catch {
       toastManager.add({
         description: "Try again or check your browser settings.",
@@ -574,8 +787,19 @@ export function EditorClient({ templateId }: { templateId: string }) {
     <div className="h-screen flex flex-col overflow-hidden">
       <EditorTopbar
         downloading={downloading}
+        isLoggedIn={isLoggedIn}
         onDownload={handleDownload}
+        onLoadPreset={handleLoadPreset}
+        onOpenSaveModal={() => setSaveModalOpen(true)}
+        presets={presets}
         template={template}
+      />
+
+      <SavePresetModal
+        onOpenChange={setSaveModalOpen}
+        onSave={handleSavePreset}
+        open={saveModalOpen}
+        saving={savingPreset}
       />
 
       {/* ── Desktop layout (lg+) ── */}

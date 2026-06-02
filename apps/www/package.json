@@ -12,6 +12,7 @@
     "@repo/auth": "workspace:*",
     "@repo/database": "workspace:*",
     "@repo/metadata": "workspace:*",
+    "@repo/storage": "workspace:*",
     "@repo/templates": "workspace:*",
     "@repo/ui": "*",
     "better-auth": "^1.6.9",

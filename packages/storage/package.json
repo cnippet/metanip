@@ -8,8 +8,12 @@
   "scripts": {
     "check-types": "tsc --noEmit"
   },
+  "dependencies": {
+    "cloudinary": "^2.6.1"
+  },
   "devDependencies": {
     "@repo/typescript-config": "*",
+    "@types/node": "^20",
     "typescript": "5.9.2"
   }
 }
