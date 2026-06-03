@@ -23,6 +23,7 @@ model user {
   accounts    account[]
   presets     Preset[]
   generations Generation[]
+  apiKeys     ApiKey[]
 }
 
 model session {
@@ -87,4 +88,16 @@ model Generation {
   metadata       Json
   customizations Json
   createdAt      DateTime @default(now())
+}
+
+model ApiKey {
+  id         String    @id @default(cuid())
+  userId     String
+  user       user      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  name       String
+  keyHash    String    @unique
+  keyPrefix  String
+  usageCount Int       @default(0)
+  lastUsedAt DateTime?
+  createdAt  DateTime  @default(now())
 }

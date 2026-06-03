@@ -1,6 +1,6 @@
 import { prisma } from "@repo/database";
 import { auth } from "@repo/auth/server";
-import { HistoryIcon, LayoutDashboardIcon, BookmarkIcon } from "lucide-react";
+import { HistoryIcon, KeyRoundIcon, LayoutDashboardIcon, BookmarkIcon } from "lucide-react";
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 import { Button } from "@/components/ui/button";
@@ -16,9 +16,10 @@ export default async function DashboardPage() {
   const { user } = session;
   const firstName = user.name.split(" ")[0];
 
-  const [presetCount, generationCount] = await Promise.all([
+  const [presetCount, generationCount, apiKeyCount] = await Promise.all([
     prisma.preset.count({ where: { userId: user.id } }),
     prisma.generation.count({ where: { userId: user.id } }),
+    prisma.apiKey.count({ where: { userId: user.id } }),
   ]);
 
   return (
@@ -58,6 +59,18 @@ export default async function DashboardPage() {
           </div>
           <p className="text-3xl font-semibold">{generationCount}</p>
           <p className="text-muted-foreground text-xs">Images generated so far</p>
+        </Link>
+
+        <Link
+          href="/dashboard/api-keys"
+          className="rounded-xl border bg-card p-6 space-y-2 hover:border-foreground/20 hover:shadow-sm transition-all"
+        >
+          <div className="flex items-center justify-between">
+            <p className="font-medium text-sm">API Keys</p>
+            <KeyRoundIcon className="size-4 text-muted-foreground" />
+          </div>
+          <p className="text-3xl font-semibold">{apiKeyCount}</p>
+          <p className="text-muted-foreground text-xs">Active keys · 100 req / day each</p>
         </Link>
       </div>
     </main>
