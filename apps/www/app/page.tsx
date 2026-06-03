@@ -1,10 +1,10 @@
 "use client";
 
 import { type Metadata, MetadataSchema } from "@repo/metadata";
-import { type TemplateDefinition, templates } from "@repo/templates";
-import { LinkIcon, UploadIcon, XIcon } from "lucide-react";
+import { type TemplateCategory, type TemplateDefinition, getAllCategories, templates } from "@repo/templates";
+import { LinkIcon, SearchIcon, UploadIcon, XIcon } from "lucide-react";
 import { useRouter } from "next/navigation";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -136,6 +136,17 @@ function MetadataSummaryCard({
 
 type Scraped = { source: "url" | "file"; data: Metadata };
 
+const CATEGORY_LABELS: Record<TemplateCategory, string> = {
+  minimal: "Minimal",
+  bold: "Bold",
+  dev: "Dev",
+  podcast: "Podcast",
+  social: "Social",
+  photo: "Photo",
+  editorial: "Editorial",
+  newsletter: "Newsletter",
+};
+
 export default function Home() {
   const router = useRouter();
   const [url, setUrl] = useState("");
@@ -144,6 +155,22 @@ export default function Home() {
   const [scraped, setScraped] = useState<Scraped | null>(null);
   const [error, setError] = useState("");
   const fileRef = useRef<HTMLInputElement>(null);
+  const [activeCategory, setActiveCategory] = useState<TemplateCategory | "all">("all");
+  const [search, setSearch] = useState("");
+
+  const categories = useMemo(() => getAllCategories(), []);
+
+  const filteredTemplates = useMemo(() => {
+    return templates.filter((t) => {
+      const categoryMatch = activeCategory === "all" || t.category === activeCategory;
+      const searchMatch =
+        search.trim() === "" ||
+        t.name.toLowerCase().includes(search.toLowerCase()) ||
+        t.description.toLowerCase().includes(search.toLowerCase()) ||
+        t.category.toLowerCase().includes(search.toLowerCase());
+      return categoryMatch && searchMatch;
+    });
+  }, [activeCategory, search]);
 
   async function handleScrape(e: React.FormEvent) {
     e.preventDefault();
@@ -298,7 +325,7 @@ export default function Home() {
 
         {/* Template grid */}
         <div>
-          <div className="flex items-center justify-between mb-5">
+          <div className="flex items-center justify-between mb-4">
             <h2 className="font-semibold text-foreground">Pick a template</h2>
             <p className="text-sm text-muted-foreground">
               {scraped
@@ -307,15 +334,75 @@ export default function Home() {
             </p>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            {templates.map((template) => (
-              <TemplateCard
-                key={template.id}
-                onClick={() => pickTemplate(template.id)}
-                template={template}
+          {/* Filters row */}
+          <div className="flex flex-wrap items-center gap-2 mb-5">
+            {/* Search */}
+            <div className="relative flex-1 min-w-[180px] max-w-xs">
+              <SearchIcon className="absolute left-2.5 top-1/2 -translate-y-1/2 size-3.5 text-muted-foreground pointer-events-none" />
+              <input
+                className="w-full rounded-md border border-input bg-background pl-8 pr-3 py-1.5 text-sm placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring"
+                onChange={(e) => setSearch(e.target.value)}
+                placeholder="Search templates…"
+                type="search"
+                value={search}
               />
-            ))}
+            </div>
+
+            {/* Category pills */}
+            <div className="flex flex-wrap gap-1.5">
+              <button
+                className={`rounded-full px-3 py-1 text-xs font-medium transition-colors ${
+                  activeCategory === "all"
+                    ? "bg-foreground text-background"
+                    : "bg-muted text-muted-foreground hover:bg-muted/80"
+                }`}
+                onClick={() => setActiveCategory("all")}
+                type="button"
+              >
+                All ({templates.length})
+              </button>
+              {categories.map((cat) => {
+                const count = templates.filter((t) => t.category === cat).length;
+                return (
+                  <button
+                    key={cat}
+                    className={`rounded-full px-3 py-1 text-xs font-medium transition-colors ${
+                      activeCategory === cat
+                        ? "bg-foreground text-background"
+                        : "bg-muted text-muted-foreground hover:bg-muted/80"
+                    }`}
+                    onClick={() => setActiveCategory(cat)}
+                    type="button"
+                  >
+                    {CATEGORY_LABELS[cat]} ({count})
+                  </button>
+                );
+              })}
+            </div>
           </div>
+
+          {filteredTemplates.length > 0 ? (
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              {filteredTemplates.map((template) => (
+                <TemplateCard
+                  key={template.id}
+                  onClick={() => pickTemplate(template.id)}
+                  template={template}
+                />
+              ))}
+            </div>
+          ) : (
+            <div className="py-16 text-center text-sm text-muted-foreground">
+              No templates match <span className="font-medium">"{search}"</span>.{" "}
+              <button
+                className="underline underline-offset-2"
+                onClick={() => { setSearch(""); setActiveCategory("all"); }}
+                type="button"
+              >
+                Clear filters
+              </button>
+            </div>
+          )}
         </div>
       </div>
     </div>
