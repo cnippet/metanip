@@ -16,7 +16,8 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: "Metanip — Featured Image Generator",
-  description: "Generate beautiful featured images for blog posts, social media, and more.",
+  description:
+    "Generate beautiful featured images for blog posts, social media, and more.",
 };
 
 export default function RootLayout({

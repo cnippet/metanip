@@ -1,20 +1,36 @@
 // Satori: no className, inline styles only, display:flex on every container.
 import type { TemplateProps } from "../shared/types";
 
-export function SatoriComponent({ metadata, customizations, dimensions }: TemplateProps) {
+export function SatoriComponent({
+  metadata,
+  customizations,
+  dimensions,
+}: TemplateProps) {
   const bg = (customizations["bgColor"] as string) ?? "#fffbf5";
   const leftBg = (customizations["leftBg"] as string) ?? "#1a1a1a";
   const textColor = (customizations["textColor"] as string) ?? "#1a1a1a";
   const accent = (customizations["accentColor"] as string) ?? "#dc2626";
   const issueLabel = (customizations["issueLabel"] as string) ?? "FEATURE";
-  const { title, description, author, siteName, publishedAt, tags = [] } = metadata;
+  const {
+    title,
+    description,
+    author,
+    siteName,
+    publishedAt,
+    tags = [],
+  } = metadata;
 
   const dateStr = publishedAt
-    ? new Date(publishedAt).toLocaleDateString("en-US", { month: "long", year: "numeric" })
+    ? new Date(publishedAt).toLocaleDateString("en-US", {
+        month: "long",
+        year: "numeric",
+      })
     : null;
 
   const isWide = dimensions.w > dimensions.h;
-  const leftW = isWide ? Math.round(dimensions.w * 0.28) : Math.round(dimensions.w * 0.32);
+  const leftW = isWide
+    ? Math.round(dimensions.w * 0.28)
+    : Math.round(dimensions.w * 0.32);
 
   return (
     <div
@@ -83,7 +99,15 @@ export function SatoriComponent({ metadata, customizations, dimensions }: Templa
           </div>
         </div>
 
-        <div style={{ display: "flex", fontSize: 11, color: "rgba(255,255,255,0.15)" }}>·</div>
+        <div
+          style={{
+            display: "flex",
+            fontSize: 11,
+            color: "rgba(255,255,255,0.15)",
+          }}
+        >
+          ·
+        </div>
       </div>
 
       {/* Right panel */}
@@ -193,7 +217,14 @@ export function SatoriComponent({ metadata, customizations, dimensions }: Templa
             ))}
           </div>
           {author ? (
-            <div style={{ display: "flex", fontSize: 13, opacity: 0.45, color: textColor }}>
+            <div
+              style={{
+                display: "flex",
+                fontSize: 13,
+                opacity: 0.45,
+                color: textColor,
+              }}
+            >
               {author}
             </div>
           ) : null}

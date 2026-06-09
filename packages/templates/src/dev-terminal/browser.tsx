@@ -11,7 +11,14 @@ export function BrowserComponent({
   const promptColor = (customizations["promptColor"] as string) ?? "#7ee787";
   const textColor = (customizations["textColor"] as string) ?? "#c9d1d9";
   const scale = (customizations["fontScale"] as number) ?? 1;
-  const { title, description, author, siteName, tags = [], readingTime } = metadata;
+  const {
+    title,
+    description,
+    author,
+    siteName,
+    tags = [],
+    readingTime,
+  } = metadata;
 
   return (
     <div
@@ -70,13 +77,31 @@ export function BrowserComponent({
           marginBottom: 36,
         }}
       >
-        <span style={{ color: promptColor, fontSize: Math.round(15 * scale), fontWeight: 600 }}>
+        <span
+          style={{
+            color: promptColor,
+            fontSize: Math.round(15 * scale),
+            fontWeight: 600,
+          }}
+        >
           ~
         </span>
-        <span style={{ color: promptColor, fontSize: Math.round(15 * scale), fontWeight: 600 }}>
+        <span
+          style={{
+            color: promptColor,
+            fontSize: Math.round(15 * scale),
+            fontWeight: 600,
+          }}
+        >
           ❯
         </span>
-        <span style={{ fontSize: Math.round(15 * scale), opacity: 0.4, color: textColor }}>
+        <span
+          style={{
+            fontSize: Math.round(15 * scale),
+            opacity: 0.4,
+            color: textColor,
+          }}
+        >
           cat post.md
         </span>
       </div>
@@ -129,12 +154,23 @@ export function BrowserComponent({
       >
         <div style={{ display: "flex", gap: 14 }}>
           {tags.slice(0, 4).map((tag) => (
-            <span key={tag} style={{ fontSize: 13, color: promptColor, opacity: 0.7 }}>
+            <span
+              key={tag}
+              style={{ fontSize: 13, color: promptColor, opacity: 0.7 }}
+            >
               #{tag}
             </span>
           ))}
         </div>
-        <div style={{ display: "flex", gap: 16, fontSize: 13, opacity: 0.35, color: textColor }}>
+        <div
+          style={{
+            display: "flex",
+            gap: 16,
+            fontSize: 13,
+            opacity: 0.35,
+            color: textColor,
+          }}
+        >
           {author && <span>{author}</span>}
           {readingTime && <span>{readingTime} min read</span>}
         </div>

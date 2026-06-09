@@ -4,7 +4,11 @@ import { getTemplate, loadInterFonts } from "@repo/templates";
 import { ImageResponse } from "next/og";
 import type { NextRequest } from "next/server";
 import { extractBearerToken, hashApiKey } from "@/lib/api-key";
-import { anonOgLimit, authedOgLimit, getClientIp } from "@/lib/upstash-rate-limit";
+import {
+  anonOgLimit,
+  authedOgLimit,
+  getClientIp,
+} from "@/lib/upstash-rate-limit";
 import { auth } from "@repo/auth/server";
 import { headers } from "next/headers";
 
@@ -13,7 +17,10 @@ export const runtime = "nodejs";
 
 async function resolveIdentity(
   request: NextRequest,
-): Promise<{ type: "anon"; ip: string } | { type: "authed"; id: string; apiKeyId?: string }> {
+): Promise<
+  | { type: "anon"; ip: string }
+  | { type: "authed"; id: string; apiKeyId?: string }
+> {
   // 1. Check for API key in query param or Authorization header
   const rawKey =
     request.nextUrl.searchParams.get("apiKey") ??
@@ -54,32 +61,42 @@ export async function GET(request: NextRequest) {
 
     if (identity.type === "anon") {
       if (anonOgLimit) {
-        const { success, limit, remaining, reset } = await anonOgLimit.limit(identity.ip);
+        const { success, limit, remaining, reset } = await anonOgLimit.limit(
+          identity.ip,
+        );
         if (!success) {
-          return new Response("Rate limit exceeded. 10 requests per hour for anonymous callers.", {
-            status: 429,
-            headers: {
-              "X-RateLimit-Limit": String(limit),
-              "X-RateLimit-Remaining": String(remaining),
-              "X-RateLimit-Reset": String(reset),
-              "Retry-After": String(Math.ceil((reset - Date.now()) / 1000)),
+          return new Response(
+            "Rate limit exceeded. 10 requests per hour for anonymous callers.",
+            {
+              status: 429,
+              headers: {
+                "X-RateLimit-Limit": String(limit),
+                "X-RateLimit-Remaining": String(remaining),
+                "X-RateLimit-Reset": String(reset),
+                "Retry-After": String(Math.ceil((reset - Date.now()) / 1000)),
+              },
             },
-          });
+          );
         }
       }
     } else {
       if (authedOgLimit) {
-        const { success, limit, remaining, reset } = await authedOgLimit.limit(identity.id);
+        const { success, limit, remaining, reset } = await authedOgLimit.limit(
+          identity.id,
+        );
         if (!success) {
-          return new Response("Rate limit exceeded. 100 requests per day for authenticated callers.", {
-            status: 429,
-            headers: {
-              "X-RateLimit-Limit": String(limit),
-              "X-RateLimit-Remaining": String(remaining),
-              "X-RateLimit-Reset": String(reset),
-              "Retry-After": String(Math.ceil((reset - Date.now()) / 1000)),
+          return new Response(
+            "Rate limit exceeded. 100 requests per day for authenticated callers.",
+            {
+              status: 429,
+              headers: {
+                "X-RateLimit-Limit": String(limit),
+                "X-RateLimit-Remaining": String(remaining),
+                "X-RateLimit-Reset": String(reset),
+                "Retry-After": String(Math.ceil((reset - Date.now()) / 1000)),
+              },
             },
-          });
+          );
         }
       }
     }
@@ -91,7 +108,9 @@ export async function GET(request: NextRequest) {
     }
     const template = getTemplate(templateId);
     if (!template) {
-      return new Response(`Template "${templateId}" not found`, { status: 404 });
+      return new Response(`Template "${templateId}" not found`, {
+        status: 404,
+      });
     }
 
     // 3. Parse metadata from query params
@@ -144,7 +163,9 @@ export async function GET(request: NextRequest) {
         : undefined) ?? template.supportedDimensions[0];
 
     if (!dimension) {
-      return new Response("No supported dimensions for template", { status: 500 });
+      return new Response("No supported dimensions for template", {
+        status: 500,
+      });
     }
 
     // 6. Load fonts

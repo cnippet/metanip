@@ -25,13 +25,21 @@ function formatDate(iso: string | null) {
   });
 }
 
-function KeyRow({ apiKey, onDelete }: { apiKey: ApiKey; onDelete: (id: string) => void }) {
+function KeyRow({
+  apiKey,
+  onDelete,
+}: {
+  apiKey: ApiKey;
+  onDelete: (id: string) => void;
+}) {
   const [deleting, setDeleting] = useState(false);
 
   async function handleDelete() {
     setDeleting(true);
     try {
-      const res = await fetch(`/api/api-keys/${apiKey.id}`, { method: "DELETE" });
+      const res = await fetch(`/api/api-keys/${apiKey.id}`, {
+        method: "DELETE",
+      });
       if (!res.ok) throw new Error("Delete failed");
       onDelete(apiKey.id);
       toastManager.add({ title: "Key revoked", type: "success" });
@@ -48,20 +56,28 @@ function KeyRow({ apiKey, onDelete }: { apiKey: ApiKey; onDelete: (id: string) =
         <KeyRoundIcon className="size-4 text-muted-foreground shrink-0" />
         <div className="min-w-0">
           <p className="font-medium text-sm truncate">{apiKey.name}</p>
-          <p className="text-xs font-mono text-muted-foreground">{apiKey.keyPrefix}</p>
+          <p className="text-xs font-mono text-muted-foreground">
+            {apiKey.keyPrefix}
+          </p>
         </div>
       </div>
       <div className="hidden sm:flex items-center gap-6 text-xs text-muted-foreground shrink-0">
         <div className="text-right">
-          <p className="font-medium text-foreground">{apiKey.usageCount.toLocaleString()}</p>
+          <p className="font-medium text-foreground">
+            {apiKey.usageCount.toLocaleString()}
+          </p>
           <p>requests</p>
         </div>
         <div className="text-right">
-          <p className="font-medium text-foreground">{formatDate(apiKey.lastUsedAt)}</p>
+          <p className="font-medium text-foreground">
+            {formatDate(apiKey.lastUsedAt)}
+          </p>
           <p>last used</p>
         </div>
         <div className="text-right">
-          <p className="font-medium text-foreground">{formatDate(apiKey.createdAt)}</p>
+          <p className="font-medium text-foreground">
+            {formatDate(apiKey.createdAt)}
+          </p>
           <p>created</p>
         </div>
       </div>
@@ -94,7 +110,12 @@ function NewKeyRevealDialog({
   }
 
   return (
-    <Dialog open onOpenChange={(open) => { if (!open) onClose(); }}>
+    <Dialog
+      open
+      onOpenChange={(open) => {
+        if (!open) onClose();
+      }}
+    >
       <DialogPopup className="p-6">
         <DialogTitle>Copy your API key</DialogTitle>
         <p className="text-sm text-muted-foreground mt-1 mb-4">
@@ -112,7 +133,9 @@ function NewKeyRevealDialog({
           </Button>
         </div>
         {copied && (
-          <p className="text-xs text-muted-foreground mt-2">Copied to clipboard!</p>
+          <p className="text-xs text-muted-foreground mt-2">
+            Copied to clipboard!
+          </p>
         )}
         <div className="mt-6 flex justify-end">
           <Button onClick={onClose}>Done</Button>
@@ -138,13 +161,28 @@ export function ApiKeyManager({ initialKeys }: { initialKeys: ApiKey[] }) {
         headers: { "content-type": "application/json" },
         body: JSON.stringify({ name: newKeyName }),
       });
-      const json = await res.json() as { apiKey?: { id: string; name: string; keyPrefix: string; createdAt: string; rawKey: string }; error?: string };
+      const json = (await res.json()) as {
+        apiKey?: {
+          id: string;
+          name: string;
+          keyPrefix: string;
+          createdAt: string;
+          rawKey: string;
+        };
+        error?: string;
+      };
       if (!res.ok) {
-        toastManager.add({ title: json.error ?? "Failed to create key", type: "error" });
+        toastManager.add({
+          title: json.error ?? "Failed to create key",
+          type: "error",
+        });
         return;
       }
       const { rawKey, ...keyData } = json.apiKey!;
-      setKeys((prev) => [{ ...keyData, usageCount: 0, lastUsedAt: null }, ...prev]);
+      setKeys((prev) => [
+        { ...keyData, usageCount: 0, lastUsedAt: null },
+        ...prev,
+      ]);
       setRevealedKey(rawKey);
       setShowCreate(false);
       setNewKeyName("");
@@ -162,7 +200,10 @@ export function ApiKeyManager({ initialKeys }: { initialKeys: ApiKey[] }) {
   return (
     <>
       {revealedKey && (
-        <NewKeyRevealDialog rawKey={revealedKey} onClose={() => setRevealedKey(null)} />
+        <NewKeyRevealDialog
+          rawKey={revealedKey}
+          onClose={() => setRevealedKey(null)}
+        />
       )}
 
       <div className="space-y-3">
@@ -176,7 +217,9 @@ export function ApiKeyManager({ initialKeys }: { initialKeys: ApiKey[] }) {
               autoFocus
               className="flex-1"
               nativeInput
-              onChange={(e) => setNewKeyName((e.target as HTMLInputElement).value)}
+              onChange={(e) =>
+                setNewKeyName((e.target as HTMLInputElement).value)
+              }
               placeholder="e.g. Production, CI/CD, Blog"
               required
               value={newKeyName}
@@ -185,7 +228,10 @@ export function ApiKeyManager({ initialKeys }: { initialKeys: ApiKey[] }) {
               Create
             </Button>
             <Button
-              onClick={() => { setShowCreate(false); setNewKeyName(""); }}
+              onClick={() => {
+                setShowCreate(false);
+                setNewKeyName("");
+              }}
               size="sm"
               type="button"
               variant="ghost"
@@ -201,7 +247,9 @@ export function ApiKeyManager({ initialKeys }: { initialKeys: ApiKey[] }) {
             variant="outline"
           >
             <PlusIcon className="size-4" />
-            {keys.length >= 10 ? "Maximum 10 keys reached" : "Create new API key"}
+            {keys.length >= 10
+              ? "Maximum 10 keys reached"
+              : "Create new API key"}
           </Button>
         )}
 
@@ -220,8 +268,15 @@ export function ApiKeyManager({ initialKeys }: { initialKeys: ApiKey[] }) {
 
         {/* Rate limit info */}
         <p className="text-xs text-muted-foreground pt-2">
-          Rate limits: <span className="font-medium text-foreground">100 requests / day</span> with an API key ·{" "}
-          <span className="font-medium text-foreground">10 requests / hour</span> anonymous
+          Rate limits:{" "}
+          <span className="font-medium text-foreground">
+            100 requests / day
+          </span>{" "}
+          with an API key ·{" "}
+          <span className="font-medium text-foreground">
+            10 requests / hour
+          </span>{" "}
+          anonymous
         </p>
       </div>
     </>

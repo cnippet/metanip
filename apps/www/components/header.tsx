@@ -1,7 +1,12 @@
 "use client";
 
 import { signOut, useSession } from "@repo/auth/client";
-import { ImageIcon, LayoutDashboardIcon, LogOutIcon, UserIcon } from "lucide-react";
+import {
+  ImageIcon,
+  LayoutDashboardIcon,
+  LogOutIcon,
+  UserIcon,
+} from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -15,7 +20,15 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/menu";
 
-function UserMenu({ name, email, image }: { name: string; email: string; image?: string | null }) {
+function UserMenu({
+  name,
+  email,
+  image,
+}: {
+  name: string;
+  email: string;
+  image?: string | null;
+}) {
   const router = useRouter();
 
   async function handleSignOut() {

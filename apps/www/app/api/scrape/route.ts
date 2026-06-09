@@ -15,7 +15,10 @@ export async function POST(request: Request) {
   try {
     body = await request.json();
   } catch {
-    return Response.json({ error: "Request body must be JSON." }, { status: 400 });
+    return Response.json(
+      { error: "Request body must be JSON." },
+      { status: 400 },
+    );
   }
 
   if (
@@ -23,12 +26,18 @@ export async function POST(request: Request) {
     body === null ||
     typeof (body as Record<string, unknown>)["url"] !== "string"
   ) {
-    return Response.json({ error: 'Missing required field: "url" (string).' }, { status: 400 });
+    return Response.json(
+      { error: 'Missing required field: "url" (string).' },
+      { status: 400 },
+    );
   }
 
   const url = (body as Record<string, unknown>)["url"] as string;
   if (!url.trim()) {
-    return Response.json({ error: '"url" must not be empty.' }, { status: 400 });
+    return Response.json(
+      { error: '"url" must not be empty.' },
+      { status: 400 },
+    );
   }
 
   try {
@@ -40,6 +49,9 @@ export async function POST(request: Request) {
     if (err instanceof ScrapeError) {
       return Response.json({ error: err.message }, { status: 422 });
     }
-    return Response.json({ error: "Unexpected error while scraping." }, { status: 500 });
+    return Response.json(
+      { error: "Unexpected error while scraping." },
+      { status: 500 },
+    );
   }
 }

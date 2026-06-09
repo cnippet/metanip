@@ -6,7 +6,8 @@ import { SatoriComponent } from "./satori";
 export const boldEditorial: TemplateDefinition = {
   id: "bold-editorial",
   name: "Bold Editorial",
-  description: "Dark dramatic layout with a full-width accent rule and large serif-style title.",
+  description:
+    "Dark dramatic layout with a full-width accent rule and large serif-style title.",
   category: "bold",
   supportedDimensions: [...STANDARD_DIMENSIONS],
   requiredFields: ["title"],

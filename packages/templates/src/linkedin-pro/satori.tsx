@@ -1,7 +1,11 @@
 // Satori: no className, inline styles only, display:flex everywhere.
 import type { TemplateProps } from "../shared/types";
 
-export function SatoriComponent({ metadata, customizations, dimensions }: TemplateProps) {
+export function SatoriComponent({
+  metadata,
+  customizations,
+  dimensions,
+}: TemplateProps) {
   const bg = (customizations["bgColor"] as string) ?? "#ffffff";
   const accent = (customizations["accentColor"] as string) ?? "#0a66c2";
   const textColor = (customizations["textColor"] as string) ?? "#000000";
@@ -59,11 +63,25 @@ export function SatoriComponent({ metadata, customizations, dimensions }: Templa
             </div>
           </div>
           <div style={{ display: "flex", flexDirection: "column", gap: 2 }}>
-            <div style={{ display: "flex", fontSize: 14, fontWeight: 600, color: textColor }}>
+            <div
+              style={{
+                display: "flex",
+                fontSize: 14,
+                fontWeight: 600,
+                color: textColor,
+              }}
+            >
               {siteName ?? "LinkedIn"}
             </div>
             {role ? (
-              <div style={{ display: "flex", fontSize: 12, color: textColor, opacity: 0.45 }}>
+              <div
+                style={{
+                  display: "flex",
+                  fontSize: 12,
+                  color: textColor,
+                  opacity: 0.45,
+                }}
+              >
                 {role}
               </div>
             ) : null}
@@ -103,7 +121,14 @@ export function SatoriComponent({ metadata, customizations, dimensions }: Templa
       ) : null}
 
       {/* Title */}
-      <div style={{ flex: 1, display: "flex", flexDirection: "column", justifyContent: "center" }}>
+      <div
+        style={{
+          flex: 1,
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "center",
+        }}
+      >
         <div
           style={{
             display: "flex",
@@ -166,7 +191,14 @@ export function SatoriComponent({ metadata, customizations, dimensions }: Templa
           ))}
         </div>
         {author ? (
-          <div style={{ display: "flex", fontSize: 14, opacity: 0.5, color: textColor }}>
+          <div
+            style={{
+              display: "flex",
+              fontSize: 14,
+              opacity: 0.5,
+              color: textColor,
+            }}
+          >
             {author}
           </div>
         ) : null}

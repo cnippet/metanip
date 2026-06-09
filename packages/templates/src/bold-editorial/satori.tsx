@@ -9,7 +9,14 @@ export function SatoriComponent({
   const textColor = (customizations["textColor"] as string) ?? "#f8f8f2";
   const accent = (customizations["accentColor"] as string) ?? "#e63946";
   const scale = (customizations["fontScale"] as number) ?? 1;
-  const { title, description, author, siteName, tags = [], publishedAt } = metadata;
+  const {
+    title,
+    description,
+    author,
+    siteName,
+    tags = [],
+    publishedAt,
+  } = metadata;
 
   const dateStr = publishedAt
     ? new Date(publishedAt).toLocaleDateString("en-US", {
@@ -56,7 +63,14 @@ export function SatoriComponent({
           {(siteName ?? "PUBLICATION").toUpperCase()}
         </div>
         {dateStr ? (
-          <div style={{ display: "flex", fontSize: 13, opacity: 0.35, color: textColor }}>
+          <div
+            style={{
+              display: "flex",
+              fontSize: 13,
+              opacity: 0.35,
+              color: textColor,
+            }}
+          >
             {dateStr}
           </div>
         ) : null}
@@ -137,7 +151,14 @@ export function SatoriComponent({
           ))}
         </div>
         {author ? (
-          <div style={{ display: "flex", fontSize: 14, opacity: 0.4, color: textColor }}>
+          <div
+            style={{
+              display: "flex",
+              fontSize: 14,
+              opacity: 0.4,
+              color: textColor,
+            }}
+          >
             {author}
           </div>
         ) : null}

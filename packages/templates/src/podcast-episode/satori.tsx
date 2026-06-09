@@ -1,7 +1,11 @@
 // Satori: no className, no position:absolute, inline styles, display:flex everywhere.
 import type { TemplateProps } from "../shared/types";
 
-export function SatoriComponent({ metadata, customizations, dimensions }: TemplateProps) {
+export function SatoriComponent({
+  metadata,
+  customizations,
+  dimensions,
+}: TemplateProps) {
   const bg = (customizations["bgColor"] as string) ?? "#0f0a1e";
   const accent = (customizations["accentColor"] as string) ?? "#a855f7";
   const textColor = (customizations["textColor"] as string) ?? "#f8fafc";
@@ -48,7 +52,15 @@ export function SatoriComponent({ metadata, customizations, dimensions }: Templa
               justifyContent: "center",
             }}
           >
-            <div style={{ width: 9, height: 14, backgroundColor: textColor, borderRadius: 5, display: "flex" }} />
+            <div
+              style={{
+                width: 9,
+                height: 14,
+                backgroundColor: textColor,
+                borderRadius: 5,
+                display: "flex",
+              }}
+            />
           </div>
           <div
             style={{
@@ -102,7 +114,14 @@ export function SatoriComponent({ metadata, customizations, dimensions }: Templa
       </div>
 
       {/* Title */}
-      <div style={{ flex: 1, display: "flex", flexDirection: "column", justifyContent: "center" }}>
+      <div
+        style={{
+          flex: 1,
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "center",
+        }}
+      >
         <div
           style={{
             fontSize: isWide ? 52 : 44,
@@ -164,7 +183,14 @@ export function SatoriComponent({ metadata, customizations, dimensions }: Templa
           ))}
         </div>
         {author ? (
-          <div style={{ display: "flex", fontSize: 14, opacity: 0.45, color: textColor }}>
+          <div
+            style={{
+              display: "flex",
+              fontSize: 14,
+              opacity: 0.45,
+              color: textColor,
+            }}
+          >
             with {author}
           </div>
         ) : null}

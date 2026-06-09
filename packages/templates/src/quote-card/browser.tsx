@@ -1,6 +1,10 @@
 import type { TemplateProps } from "../shared/types";
 
-export function BrowserComponent({ metadata, customizations, dimensions }: TemplateProps) {
+export function BrowserComponent({
+  metadata,
+  customizations,
+  dimensions,
+}: TemplateProps) {
   const bg = (customizations["bgColor"] as string) ?? "#fafaf9";
   const textColor = (customizations["textColor"] as string) ?? "#1c1917";
   const accent = (customizations["accentColor"] as string) ?? "#f97316";

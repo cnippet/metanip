@@ -1,6 +1,11 @@
 import { prisma } from "@repo/database";
 import { auth } from "@repo/auth/server";
-import { HistoryIcon, KeyRoundIcon, LayoutDashboardIcon, BookmarkIcon } from "lucide-react";
+import {
+  HistoryIcon,
+  KeyRoundIcon,
+  LayoutDashboardIcon,
+  BookmarkIcon,
+} from "lucide-react";
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 import { Button } from "@/components/ui/button";
@@ -46,7 +51,9 @@ export default async function DashboardPage() {
             <BookmarkIcon className="size-4 text-muted-foreground" />
           </div>
           <p className="text-3xl font-semibold">{presetCount}</p>
-          <p className="text-muted-foreground text-xs">Saved template configurations</p>
+          <p className="text-muted-foreground text-xs">
+            Saved template configurations
+          </p>
         </Link>
 
         <Link
@@ -58,7 +65,9 @@ export default async function DashboardPage() {
             <HistoryIcon className="size-4 text-muted-foreground" />
           </div>
           <p className="text-3xl font-semibold">{generationCount}</p>
-          <p className="text-muted-foreground text-xs">Images generated so far</p>
+          <p className="text-muted-foreground text-xs">
+            Images generated so far
+          </p>
         </Link>
 
         <Link
@@ -70,7 +79,9 @@ export default async function DashboardPage() {
             <KeyRoundIcon className="size-4 text-muted-foreground" />
           </div>
           <p className="text-3xl font-semibold">{apiKeyCount}</p>
-          <p className="text-muted-foreground text-xs">Active keys · 100 req / day each</p>
+          <p className="text-muted-foreground text-xs">
+            Active keys · 100 req / day each
+          </p>
         </Link>
       </div>
     </main>

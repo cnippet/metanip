@@ -6,7 +6,8 @@ import { SatoriComponent } from "./satori";
 export const minimalCard: TemplateDefinition = {
   id: "minimal-card",
   name: "Minimal Card",
-  description: "Clean, minimal layout with a bold title, description, tags, and site branding.",
+  description:
+    "Clean, minimal layout with a bold title, description, tags, and site branding.",
   category: "minimal",
   supportedDimensions: [...STANDARD_DIMENSIONS],
   requiredFields: ["title"],

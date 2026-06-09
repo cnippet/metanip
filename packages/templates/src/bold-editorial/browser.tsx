@@ -9,7 +9,14 @@ export function BrowserComponent({
   const textColor = (customizations["textColor"] as string) ?? "#f8f8f2";
   const accent = (customizations["accentColor"] as string) ?? "#e63946";
   const scale = (customizations["fontScale"] as number) ?? 1;
-  const { title, description, author, siteName, tags = [], publishedAt } = metadata;
+  const {
+    title,
+    description,
+    author,
+    siteName,
+    tags = [],
+    publishedAt,
+  } = metadata;
 
   const dateStr = publishedAt
     ? new Date(publishedAt).toLocaleDateString("en-US", {

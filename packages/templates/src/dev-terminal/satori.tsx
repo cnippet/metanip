@@ -11,7 +11,14 @@ export function SatoriComponent({
   const promptColor = (customizations["promptColor"] as string) ?? "#7ee787";
   const textColor = (customizations["textColor"] as string) ?? "#c9d1d9";
   const scale = (customizations["fontScale"] as number) ?? 1;
-  const { title, description, author, siteName, tags = [], readingTime } = metadata;
+  const {
+    title,
+    description,
+    author,
+    siteName,
+    tags = [],
+    readingTime,
+  } = metadata;
 
   return (
     <div
@@ -31,7 +38,12 @@ export function SatoriComponent({
     >
       {/* Window title bar */}
       <div
-        style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 44 }}
+        style={{
+          display: "flex",
+          alignItems: "center",
+          gap: 8,
+          marginBottom: 44,
+        }}
       >
         {TRAFFIC_LIGHTS.map((c) => (
           <div
@@ -61,20 +73,40 @@ export function SatoriComponent({
 
       {/* Shell prompt */}
       <div
-        style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 36 }}
+        style={{
+          display: "flex",
+          alignItems: "center",
+          gap: 10,
+          marginBottom: 36,
+        }}
       >
         <div
-          style={{ display: "flex", color: promptColor, fontSize: Math.round(15 * scale), fontWeight: 600 }}
+          style={{
+            display: "flex",
+            color: promptColor,
+            fontSize: Math.round(15 * scale),
+            fontWeight: 600,
+          }}
         >
           ~
         </div>
         <div
-          style={{ display: "flex", color: promptColor, fontSize: Math.round(15 * scale), fontWeight: 600 }}
+          style={{
+            display: "flex",
+            color: promptColor,
+            fontSize: Math.round(15 * scale),
+            fontWeight: 600,
+          }}
         >
           $
         </div>
         <div
-          style={{ display: "flex", fontSize: Math.round(15 * scale), opacity: 0.4, color: textColor }}
+          style={{
+            display: "flex",
+            fontSize: Math.round(15 * scale),
+            opacity: 0.4,
+            color: textColor,
+          }}
         >
           cat post.md
         </div>
@@ -130,19 +162,36 @@ export function SatoriComponent({
 
       {/* Footer */}
       <div
-        style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}
+        style={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "space-between",
+        }}
       >
         <div style={{ display: "flex", gap: 14 }}>
           {tags.slice(0, 4).map((tag) => (
             <div
               key={tag}
-              style={{ display: "flex", fontSize: 13, color: promptColor, opacity: 0.7 }}
+              style={{
+                display: "flex",
+                fontSize: 13,
+                color: promptColor,
+                opacity: 0.7,
+              }}
             >
               {"#" + tag}
             </div>
           ))}
         </div>
-        <div style={{ display: "flex", gap: 16, fontSize: 13, opacity: 0.35, color: textColor }}>
+        <div
+          style={{
+            display: "flex",
+            gap: 16,
+            fontSize: 13,
+            opacity: 0.35,
+            color: textColor,
+          }}
+        >
           {author ? <div style={{ display: "flex" }}>{author}</div> : null}
           {readingTime ? (
             <div style={{ display: "flex" }}>{readingTime + " min read"}</div>

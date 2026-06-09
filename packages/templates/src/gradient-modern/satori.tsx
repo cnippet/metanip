@@ -90,7 +90,11 @@ export function SatoriComponent({
 
       {/* Footer */}
       <div
-        style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}
+        style={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "space-between",
+        }}
       >
         <div style={{ display: "flex", gap: 8 }}>
           {tags.slice(0, 3).map((tag) => (
@@ -115,7 +119,13 @@ export function SatoriComponent({
         </div>
         {author ? (
           <div
-            style={{ display: "flex", fontSize: 15, opacity: 0.78, color: textColor, fontWeight: 500 }}
+            style={{
+              display: "flex",
+              fontSize: 15,
+              opacity: 0.78,
+              color: textColor,
+              fontWeight: 500,
+            }}
           >
             {author}
           </div>

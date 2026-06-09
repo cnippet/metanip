@@ -6,7 +6,8 @@ import { SatoriComponent } from "./satori";
 export const newsletterClassic: TemplateDefinition = {
   id: "newsletter-classic",
   name: "Newsletter Classic",
-  description: "Refined letter-style layout with serif headline, issue number, and editorial footer.",
+  description:
+    "Refined letter-style layout with serif headline, issue number, and editorial footer.",
   category: "newsletter",
   supportedDimensions: [...STANDARD_DIMENSIONS],
   requiredFields: ["title"],
@@ -43,7 +44,8 @@ export const newsletterClassic: TemplateDefinition = {
   defaults: {
     metadata: {
       title: "The Slow Web & Why It Matters",
-      description: "This week: reclaiming depth in a distracted era, plus the tools helping developers ship more intentionally.",
+      description:
+        "This week: reclaiming depth in a distracted era, plus the tools helping developers ship more intentionally.",
       author: "Clara Osei",
       siteName: "Thoughtware",
       publishedAt: new Date("2024-04-01"),

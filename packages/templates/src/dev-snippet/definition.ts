@@ -6,7 +6,8 @@ import { SatoriComponent } from "./satori";
 export const devSnippet: TemplateDefinition = {
   id: "dev-snippet",
   name: "Dev Snippet",
-  description: "Carbon/ray.so-style code window with syntax highlight aesthetic and window chrome.",
+  description:
+    "Carbon/ray.so-style code window with syntax highlight aesthetic and window chrome.",
   category: "dev",
   supportedDimensions: [...STANDARD_DIMENSIONS],
   requiredFields: ["title"],

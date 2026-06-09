@@ -15,7 +15,10 @@ export async function POST(request: Request) {
   try {
     body = await request.json();
   } catch {
-    return Response.json({ error: "Request body must be JSON." }, { status: 400 });
+    return Response.json(
+      { error: "Request body must be JSON." },
+      { status: 400 },
+    );
   }
 
   if (
@@ -31,7 +34,10 @@ export async function POST(request: Request) {
 
   const content = (body as Record<string, unknown>)["content"] as string;
   if (!content.trim()) {
-    return Response.json({ error: '"content" must not be empty.' }, { status: 400 });
+    return Response.json(
+      { error: '"content" must not be empty.' },
+      { status: 400 },
+    );
   }
 
   try {
@@ -43,6 +49,9 @@ export async function POST(request: Request) {
     if (err instanceof ParseError) {
       return Response.json({ error: err.message }, { status: 422 });
     }
-    return Response.json({ error: "Unexpected error while parsing." }, { status: 500 });
+    return Response.json(
+      { error: "Unexpected error while parsing." },
+      { status: 500 },
+    );
   }
 }

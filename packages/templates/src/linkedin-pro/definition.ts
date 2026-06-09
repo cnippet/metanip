@@ -6,7 +6,8 @@ import { SatoriComponent } from "./satori";
 export const linkedinPro: TemplateDefinition = {
   id: "linkedin-pro",
   name: "LinkedIn Pro",
-  description: "Professional business-card aesthetic optimised for LinkedIn 1200×627 sharing.",
+  description:
+    "Professional business-card aesthetic optimised for LinkedIn 1200×627 sharing.",
   category: "social",
   supportedDimensions: [
     { w: 1200, h: 627, label: "LinkedIn" },
@@ -45,7 +46,8 @@ export const linkedinPro: TemplateDefinition = {
   defaults: {
     metadata: {
       title: "Why We Migrated 5 Million Records Overnight",
-      description: "A step-by-step breakdown of the zero-downtime migration that changed how we think about data.",
+      description:
+        "A step-by-step breakdown of the zero-downtime migration that changed how we think about data.",
       author: "Priya Sharma",
       siteName: "Acme Corp",
       tags: ["engineering", "database", "migration"],

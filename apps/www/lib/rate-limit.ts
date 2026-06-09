@@ -23,7 +23,11 @@ export function checkRateLimit(ip: string): {
   }
 
   entry.count++;
-  return { allowed: true, remaining: MAX_PER_WINDOW - entry.count, resetAt: entry.resetAt };
+  return {
+    allowed: true,
+    remaining: MAX_PER_WINDOW - entry.count,
+    resetAt: entry.resetAt,
+  };
 }
 
 export function getClientIp(request: Request): string {

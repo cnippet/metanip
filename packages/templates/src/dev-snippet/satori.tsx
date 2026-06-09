@@ -4,12 +4,17 @@ import type { TemplateProps } from "../shared/types";
 
 const DOTS = [{ color: "#ff5f56" }, { color: "#ffbd2e" }, { color: "#27c93f" }];
 
-export function SatoriComponent({ metadata, customizations, dimensions }: TemplateProps) {
+export function SatoriComponent({
+  metadata,
+  customizations,
+  dimensions,
+}: TemplateProps) {
   const bg = (customizations["bgColor"] as string) ?? "#0d1117";
   const windowBg = (customizations["windowBg"] as string) ?? "#161b22";
   const accent = (customizations["accentColor"] as string) ?? "#58a6ff";
   const language = (customizations["language"] as string) ?? "TypeScript";
-  const showLineNumbers = (customizations["showLineNumbers"] as boolean) ?? true;
+  const showLineNumbers =
+    (customizations["showLineNumbers"] as boolean) ?? true;
   const { title, description, author, siteName, tags = [] } = metadata;
 
   const lines = title.split("\n").slice(0, 6);
@@ -112,7 +117,10 @@ export function SatoriComponent({ metadata, customizations, dimensions }: Templa
           }}
         >
           {lines.map((line, i) => (
-            <div key={i} style={{ display: "flex", alignItems: "center", gap: 20 }}>
+            <div
+              key={i}
+              style={{ display: "flex", alignItems: "center", gap: 20 }}
+            >
               {showLineNumbers ? (
                 <div
                   style={{

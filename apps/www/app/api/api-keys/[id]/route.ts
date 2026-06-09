@@ -8,7 +8,8 @@ export async function DELETE(
   { params }: { params: Promise<{ id: string }> },
 ) {
   const session = await auth.api.getSession({ headers: await headers() });
-  if (!session) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  if (!session)
+    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
 
   const { id } = await params;
 
@@ -17,7 +18,8 @@ export async function DELETE(
     select: { userId: true },
   });
 
-  if (!apiKey) return NextResponse.json({ error: "Not found" }, { status: 404 });
+  if (!apiKey)
+    return NextResponse.json({ error: "Not found" }, { status: 404 });
   if (apiKey.userId !== session.user.id) {
     return NextResponse.json({ error: "Forbidden" }, { status: 403 });
   }

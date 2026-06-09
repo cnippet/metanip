@@ -1,13 +1,24 @@
 // Satori: no className, inline styles only, display:flex everywhere, no position:absolute.
 import type { TemplateProps } from "../shared/types";
 
-export function SatoriComponent({ metadata, customizations, dimensions }: TemplateProps) {
+export function SatoriComponent({
+  metadata,
+  customizations,
+  dimensions,
+}: TemplateProps) {
   const bg = (customizations["bgColor"] as string) ?? "#000000";
   const textColor = (customizations["textColor"] as string) ?? "#ffffff";
   const accent = (customizations["accentColor"] as string) ?? "#1d9bf0";
   const showHandle = (customizations["showHandle"] as boolean) ?? true;
   const scale = (customizations["fontScale"] as number) ?? 1;
-  const { title, description, author, authorHandle, siteName, tags = [] } = metadata;
+  const {
+    title,
+    description,
+    author,
+    authorHandle,
+    siteName,
+    tags = [],
+  } = metadata;
 
   const isWide = dimensions.w > dimensions.h;
 
@@ -47,15 +58,38 @@ export function SatoriComponent({ metadata, customizations, dimensions }: Templa
             justifyContent: "center",
           }}
         >
-          <div style={{ display: "flex", color: "#fff", fontWeight: 900, fontSize: 14 }}>X</div>
+          <div
+            style={{
+              display: "flex",
+              color: "#fff",
+              fontWeight: 900,
+              fontSize: 14,
+            }}
+          >
+            X
+          </div>
         </div>
-        <div style={{ display: "flex", fontSize: 14, opacity: 0.4, color: textColor }}>
+        <div
+          style={{
+            display: "flex",
+            fontSize: 14,
+            opacity: 0.4,
+            color: textColor,
+          }}
+        >
           {siteName ?? "Thread"}
         </div>
       </div>
 
       {/* Title */}
-      <div style={{ flex: 1, display: "flex", flexDirection: "column", justifyContent: "center" }}>
+      <div
+        style={{
+          flex: 1,
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "center",
+        }}
+      >
         <div
           style={{
             display: "flex",
@@ -133,12 +167,26 @@ export function SatoriComponent({ metadata, customizations, dimensions }: Templa
             />
             <div style={{ display: "flex", flexDirection: "column", gap: 1 }}>
               {author ? (
-                <div style={{ display: "flex", fontSize: 13, fontWeight: 600, color: textColor }}>
+                <div
+                  style={{
+                    display: "flex",
+                    fontSize: 13,
+                    fontWeight: 600,
+                    color: textColor,
+                  }}
+                >
                   {author}
                 </div>
               ) : null}
               {authorHandle ? (
-                <div style={{ display: "flex", fontSize: 12, color: accent, opacity: 0.8 }}>
+                <div
+                  style={{
+                    display: "flex",
+                    fontSize: 12,
+                    color: accent,
+                    opacity: 0.8,
+                  }}
+                >
                   {authorHandle}
                 </div>
               ) : null}

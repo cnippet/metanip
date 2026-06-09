@@ -685,7 +685,9 @@ export function EditorClient({ templateId }: { templateId: string }) {
     if (!isLoggedIn) return;
     fetch(`/api/presets?templateId=${templateId}`)
       .then((r) => r.json())
-      .then((data: { presets?: SavedPreset[] }) => setPresets(data.presets ?? []))
+      .then((data: { presets?: SavedPreset[] }) =>
+        setPresets(data.presets ?? []),
+      )
       .catch(() => {});
   }, [isLoggedIn, templateId]);
 

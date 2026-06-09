@@ -6,7 +6,8 @@ import { SatoriComponent } from "./satori";
 export const quoteCard: TemplateDefinition = {
   id: "quote-card",
   name: "Quote Card",
-  description: "Oversized pull-quote with decorative quotation mark and attribution line.",
+  description:
+    "Oversized pull-quote with decorative quotation mark and attribution line.",
   category: "social",
   supportedDimensions: [...STANDARD_DIMENSIONS],
   requiredFields: ["title"],

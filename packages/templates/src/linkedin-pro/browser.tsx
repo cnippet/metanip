@@ -1,6 +1,10 @@
 import type { TemplateProps } from "../shared/types";
 
-export function BrowserComponent({ metadata, customizations, dimensions }: TemplateProps) {
+export function BrowserComponent({
+  metadata,
+  customizations,
+  dimensions,
+}: TemplateProps) {
   const bg = (customizations["bgColor"] as string) ?? "#ffffff";
   const accent = (customizations["accentColor"] as string) ?? "#0a66c2";
   const textColor = (customizations["textColor"] as string) ?? "#000000";
@@ -45,12 +49,25 @@ export function BrowserComponent({ metadata, customizations, dimensions }: Templ
               justifyContent: "center",
             }}
           >
-            <span style={{ color: "#fff", fontWeight: 800, fontSize: 18, lineHeight: 1 }}>in</span>
+            <span
+              style={{
+                color: "#fff",
+                fontWeight: 800,
+                fontSize: 18,
+                lineHeight: 1,
+              }}
+            >
+              in
+            </span>
           </div>
           <div style={{ display: "flex", flexDirection: "column", gap: 1 }}>
-            <span style={{ fontSize: 14, fontWeight: 600, color: textColor }}>{siteName ?? "LinkedIn"}</span>
+            <span style={{ fontSize: 14, fontWeight: 600, color: textColor }}>
+              {siteName ?? "LinkedIn"}
+            </span>
             {role && (
-              <span style={{ fontSize: 12, color: textColor, opacity: 0.45 }}>{role}</span>
+              <span style={{ fontSize: 12, color: textColor, opacity: 0.45 }}>
+                {role}
+              </span>
             )}
           </div>
         </div>
@@ -84,7 +101,14 @@ export function BrowserComponent({ metadata, customizations, dimensions }: Templ
       )}
 
       {/* Title area */}
-      <div style={{ flex: 1, display: "flex", flexDirection: "column", justifyContent: "center" }}>
+      <div
+        style={{
+          flex: 1,
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "center",
+        }}
+      >
         <h1
           style={{
             fontSize: isWide ? 50 : 40,
@@ -142,7 +166,9 @@ export function BrowserComponent({ metadata, customizations, dimensions }: Templ
           ))}
         </div>
         {author && (
-          <span style={{ fontSize: 14, opacity: 0.5, color: textColor }}>{author}</span>
+          <span style={{ fontSize: 14, opacity: 0.5, color: textColor }}>
+            {author}
+          </span>
         )}
       </div>
     </div>

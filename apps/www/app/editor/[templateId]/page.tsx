@@ -12,7 +12,13 @@ export default async function EditorPage({
   if (!getTemplate(templateId)) notFound();
 
   return (
-    <Suspense fallback={<div className="h-screen flex items-center justify-center text-muted-foreground text-sm">Loading editor…</div>}>
+    <Suspense
+      fallback={
+        <div className="h-screen flex items-center justify-center text-muted-foreground text-sm">
+          Loading editor…
+        </div>
+      }
+    >
       <EditorClient templateId={templateId} />
     </Suspense>
   );

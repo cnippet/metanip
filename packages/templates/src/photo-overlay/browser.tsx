@@ -1,12 +1,23 @@
 import type { TemplateProps } from "../shared/types";
 
-export function BrowserComponent({ metadata, customizations, dimensions }: TemplateProps) {
+export function BrowserComponent({
+  metadata,
+  customizations,
+  dimensions,
+}: TemplateProps) {
   const overlayColor = (customizations["overlayColor"] as string) ?? "#000000";
   const overlayOpacity = (customizations["overlayOpacity"] as number) ?? 0.6;
   const textColor = (customizations["textColor"] as string) ?? "#ffffff";
   const accent = (customizations["accentColor"] as string) ?? "#f59e0b";
   const fallbackBg = (customizations["fallbackBg"] as string) ?? "#1e293b";
-  const { title, description, author, siteName, heroImage, tags = [] } = metadata;
+  const {
+    title,
+    description,
+    author,
+    siteName,
+    heroImage,
+    tags = [],
+  } = metadata;
 
   // Convert hex to rgb for rgba()
   const hexToRgb = (hex: string) => {

@@ -19,7 +19,9 @@ export async function scrapeUrl(rawUrl: string): Promise<Metadata> {
     const res = await ogs({
       url: url.toString(),
       timeout: 10_000,
-      fetchOptions: { headers: { "user-agent": "Metanip/1.0 (featured-image-generator)" } },
+      fetchOptions: {
+        headers: { "user-agent": "Metanip/1.0 (featured-image-generator)" },
+      },
     });
     if (res.error) throw new Error("ogs error flag set");
     result = res.result;

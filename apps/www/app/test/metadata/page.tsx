@@ -121,7 +121,11 @@ function MarkdownPaste() {
             rows={8}
             className="font-mono"
           />
-          <Button type="submit" loading={state.status === "loading"} className="self-start">
+          <Button
+            type="submit"
+            loading={state.status === "loading"}
+            className="self-start"
+          >
             Submit
           </Button>
         </form>
@@ -165,15 +169,23 @@ function FileUpload() {
             type="file"
             accept=".md,.mdx,.txt"
             required
-            onChange={(e) => setFile((e.target as HTMLInputElement).files?.[0] ?? null)}
+            onChange={(e) =>
+              setFile((e.target as HTMLInputElement).files?.[0] ?? null)
+            }
             nativeInput
           />
-          <Button type="submit" disabled={!file} loading={state.status === "loading"}>
+          <Button
+            type="submit"
+            disabled={!file}
+            loading={state.status === "loading"}
+          >
             Submit
           </Button>
         </form>
         {file && (
-          <p className="mt-1.5 text-xs text-muted-foreground">Selected: {file.name}</p>
+          <p className="mt-1.5 text-xs text-muted-foreground">
+            Selected: {file.name}
+          </p>
         )}
         <Result state={state} />
       </CardPanel>

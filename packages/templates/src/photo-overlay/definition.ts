@@ -6,7 +6,8 @@ import { SatoriComponent } from "./satori";
 export const photoOverlay: TemplateDefinition = {
   id: "photo-overlay",
   name: "Photo Overlay",
-  description: "Hero image with a dark gradient overlay — title and metadata float over the image.",
+  description:
+    "Hero image with a dark gradient overlay — title and metadata float over the image.",
   category: "photo",
   supportedDimensions: [...STANDARD_DIMENSIONS],
   requiredFields: ["title"],

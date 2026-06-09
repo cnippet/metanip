@@ -6,12 +6,17 @@ const WINDOW_DOTS = [
   { color: "#27c93f" },
 ];
 
-export function BrowserComponent({ metadata, customizations, dimensions }: TemplateProps) {
+export function BrowserComponent({
+  metadata,
+  customizations,
+  dimensions,
+}: TemplateProps) {
   const bg = (customizations["bgColor"] as string) ?? "#0d1117";
   const windowBg = (customizations["windowBg"] as string) ?? "#161b22";
   const accent = (customizations["accentColor"] as string) ?? "#58a6ff";
   const language = (customizations["language"] as string) ?? "TypeScript";
-  const showLineNumbers = (customizations["showLineNumbers"] as boolean) ?? true;
+  const showLineNumbers =
+    (customizations["showLineNumbers"] as boolean) ?? true;
   const { title, description, author, siteName, tags = [] } = metadata;
 
   const lines = title.split("\n");
@@ -100,7 +105,10 @@ export function BrowserComponent({ metadata, customizations, dimensions }: Templ
           }}
         >
           {lines.map((line, i) => (
-            <div key={i} style={{ display: "flex", alignItems: "center", gap: 20 }}>
+            <div
+              key={i}
+              style={{ display: "flex", alignItems: "center", gap: 20 }}
+            >
               {showLineNumbers && (
                 <span
                   style={{

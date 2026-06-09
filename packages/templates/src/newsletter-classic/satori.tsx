@@ -1,13 +1,24 @@
 // Satori: no className, inline styles only, display:flex everywhere.
 import type { TemplateProps } from "../shared/types";
 
-export function SatoriComponent({ metadata, customizations, dimensions }: TemplateProps) {
+export function SatoriComponent({
+  metadata,
+  customizations,
+  dimensions,
+}: TemplateProps) {
   const bg = (customizations["bgColor"] as string) ?? "#fef9f0";
   const textColor = (customizations["textColor"] as string) ?? "#1c1917";
   const accent = (customizations["accentColor"] as string) ?? "#92400e";
   const issueNumber = (customizations["issueNumber"] as string) ?? "№ 1";
   const scale = (customizations["fontScale"] as number) ?? 1;
-  const { title, description, author, siteName, publishedAt, tags = [] } = metadata;
+  const {
+    title,
+    description,
+    author,
+    siteName,
+    publishedAt,
+    tags = [],
+  } = metadata;
 
   const dateStr = publishedAt
     ? new Date(publishedAt).toLocaleDateString("en-US", {
@@ -59,7 +70,14 @@ export function SatoriComponent({ metadata, customizations, dimensions }: Templa
             {siteName ?? "The Letter"}
           </div>
           {dateStr ? (
-            <div style={{ display: "flex", fontSize: 12, opacity: 0.4, color: textColor }}>
+            <div
+              style={{
+                display: "flex",
+                fontSize: 12,
+                opacity: 0.4,
+                color: textColor,
+              }}
+            >
               {dateStr}
             </div>
           ) : null}
@@ -78,7 +96,14 @@ export function SatoriComponent({ metadata, customizations, dimensions }: Templa
       </div>
 
       {/* Headline */}
-      <div style={{ flex: 1, display: "flex", flexDirection: "column", justifyContent: "center" }}>
+      <div
+        style={{
+          flex: 1,
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "center",
+        }}
+      >
         <div
           style={{
             display: "flex",
@@ -153,7 +178,14 @@ export function SatoriComponent({ metadata, customizations, dimensions }: Templa
           ))}
         </div>
         {author ? (
-          <div style={{ display: "flex", fontSize: 13, opacity: 0.4, color: textColor }}>
+          <div
+            style={{
+              display: "flex",
+              fontSize: 13,
+              opacity: 0.4,
+              color: textColor,
+            }}
+          >
             {author}
           </div>
         ) : null}

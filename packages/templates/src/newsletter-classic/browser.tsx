@@ -1,12 +1,23 @@
 import type { TemplateProps } from "../shared/types";
 
-export function BrowserComponent({ metadata, customizations, dimensions }: TemplateProps) {
+export function BrowserComponent({
+  metadata,
+  customizations,
+  dimensions,
+}: TemplateProps) {
   const bg = (customizations["bgColor"] as string) ?? "#fef9f0";
   const textColor = (customizations["textColor"] as string) ?? "#1c1917";
   const accent = (customizations["accentColor"] as string) ?? "#92400e";
   const issueNumber = (customizations["issueNumber"] as string) ?? "№ 1";
   const scale = (customizations["fontScale"] as number) ?? 1;
-  const { title, description, author, siteName, publishedAt, tags = [] } = metadata;
+  const {
+    title,
+    description,
+    author,
+    siteName,
+    publishedAt,
+    tags = [],
+  } = metadata;
 
   const dateStr = publishedAt
     ? new Date(publishedAt).toLocaleDateString("en-US", {
@@ -57,7 +68,9 @@ export function BrowserComponent({ metadata, customizations, dimensions }: Templ
             {siteName ?? "The Letter"}
           </span>
           {dateStr && (
-            <span style={{ fontSize: 12, opacity: 0.4, color: textColor }}>{dateStr}</span>
+            <span style={{ fontSize: 12, opacity: 0.4, color: textColor }}>
+              {dateStr}
+            </span>
           )}
         </div>
         <span
@@ -74,7 +87,14 @@ export function BrowserComponent({ metadata, customizations, dimensions }: Templ
       </div>
 
       {/* Headline area */}
-      <div style={{ flex: 1, display: "flex", flexDirection: "column", justifyContent: "center" }}>
+      <div
+        style={{
+          flex: 1,
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "center",
+        }}
+      >
         <h1
           style={{
             fontSize: Math.round((isWide ? 54 : 44) * scale),
@@ -146,7 +166,14 @@ export function BrowserComponent({ metadata, customizations, dimensions }: Templ
           ))}
         </div>
         {author && (
-          <span style={{ fontSize: 13, opacity: 0.4, color: textColor, fontStyle: "italic" }}>
+          <span
+            style={{
+              fontSize: 13,
+              opacity: 0.4,
+              color: textColor,
+              fontStyle: "italic",
+            }}
+          >
             {author}
           </span>
         )}

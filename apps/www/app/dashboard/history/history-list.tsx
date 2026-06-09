@@ -72,7 +72,9 @@ export function HistoryList({
           )}
 
           <div className="flex-1 min-w-0">
-            <p className="font-medium text-sm truncate">{getTitle(gen.metadata)}</p>
+            <p className="font-medium text-sm truncate">
+              {getTitle(gen.metadata)}
+            </p>
             <p className="text-xs text-muted-foreground mt-0.5">
               {new Date(gen.createdAt).toLocaleString()}
             </p>

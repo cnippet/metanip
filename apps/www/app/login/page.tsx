@@ -45,14 +45,23 @@ export default function LoginPage() {
   const router = useRouter();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [loading, setLoading] = useState<"email" | "google" | "github" | null>(null);
+  const [loading, setLoading] = useState<"email" | "google" | "github" | null>(
+    null,
+  );
 
   async function handleEmailSignIn(e: React.FormEvent) {
     e.preventDefault();
     setLoading("email");
-    const { error } = await signIn.email({ email, password, callbackURL: "/dashboard" });
+    const { error } = await signIn.email({
+      email,
+      password,
+      callbackURL: "/dashboard",
+    });
     if (error) {
-      toastManager.add({ title: error.message ?? "Sign in failed", type: "error" });
+      toastManager.add({
+        title: error.message ?? "Sign in failed",
+        type: "error",
+      });
       setLoading(null);
     } else {
       router.push("/dashboard");
@@ -68,11 +77,16 @@ export default function LoginPage() {
     <div className="flex min-h-screen items-center justify-center px-4 py-12">
       <div className="w-full max-w-sm space-y-6">
         <div className="space-y-1 text-center">
-          <Link href="/" className="inline-flex items-center gap-2 font-semibold text-foreground">
+          <Link
+            href="/"
+            className="inline-flex items-center gap-2 font-semibold text-foreground"
+          >
             Metanip
           </Link>
           <h1 className="text-xl font-semibold">Sign in to your account</h1>
-          <p className="text-muted-foreground text-sm">Save presets and generation history</p>
+          <p className="text-muted-foreground text-sm">
+            Save presets and generation history
+          </p>
         </div>
 
         <div className="space-y-3">
@@ -141,7 +155,10 @@ export default function LoginPage() {
 
         <p className="text-center text-muted-foreground text-xs">
           Don&apos;t have an account?{" "}
-          <Link href="/signup" className="text-foreground underline underline-offset-4">
+          <Link
+            href="/signup"
+            className="text-foreground underline underline-offset-4"
+          >
             Sign up
           </Link>
         </p>

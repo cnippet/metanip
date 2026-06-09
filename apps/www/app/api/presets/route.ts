@@ -47,7 +47,10 @@ export async function POST(req: Request) {
   };
 
   if (!body.name?.trim() || !body.templateId) {
-    return NextResponse.json({ error: "name and templateId are required" }, { status: 400 });
+    return NextResponse.json(
+      { error: "name and templateId are required" },
+      { status: 400 },
+    );
   }
 
   const preset = await prisma.preset.create({

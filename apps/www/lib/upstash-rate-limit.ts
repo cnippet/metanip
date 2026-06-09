@@ -12,12 +12,20 @@ const redis = makeRedis();
 
 // Anonymous callers: 10 req / hour per IP
 export const anonOgLimit = redis
-  ? new Ratelimit({ redis, limiter: Ratelimit.slidingWindow(10, "1 h"), prefix: "og:anon" })
+  ? new Ratelimit({
+      redis,
+      limiter: Ratelimit.slidingWindow(10, "1 h"),
+      prefix: "og:anon",
+    })
   : null;
 
 // Authenticated (session or API key): 100 req / day per user/key
 export const authedOgLimit = redis
-  ? new Ratelimit({ redis, limiter: Ratelimit.slidingWindow(100, "1 d"), prefix: "og:authed" })
+  ? new Ratelimit({
+      redis,
+      limiter: Ratelimit.slidingWindow(100, "1 d"),
+      prefix: "og:authed",
+    })
   : null;
 
 export function getClientIp(req: Request): string {

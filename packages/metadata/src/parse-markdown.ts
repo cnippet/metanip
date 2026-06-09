@@ -14,8 +14,7 @@ export function parseMarkdown(content: string): Metadata {
     throw new ParseError("Failed to parse markdown frontmatter.", err);
   }
 
-  const title =
-    str(fm["title"]) ?? extractFirstH1(body) ?? "Untitled";
+  const title = str(fm["title"]) ?? extractFirstH1(body) ?? "Untitled";
 
   const description =
     str(fm["description"]) ?? str(fm["excerpt"]) ?? extractFirstParagraph(body);
@@ -53,7 +52,11 @@ function str(v: unknown): string | undefined {
 function normalizeTags(v: unknown): string[] {
   if (!v) return [];
   if (Array.isArray(v)) return v.map(String).filter(Boolean);
-  if (typeof v === "string") return v.split(",").map((t) => t.trim()).filter(Boolean);
+  if (typeof v === "string")
+    return v
+      .split(",")
+      .map((t) => t.trim())
+      .filter(Boolean);
   return [];
 }
 
@@ -74,7 +77,11 @@ function extractFirstParagraph(body: string): string | undefined {
     }
     if (inCode) continue;
     // Skip headings, horizontal rules, images, list items, blockquotes, HTML
-    if (/^(#{1,6}[ \t]|---|===|\*{3}|-{3}|_{3}|!\[|[-*+][ \t]|\d+\.[ \t]|>[ \t]|<)/.test(line))
+    if (
+      /^(#{1,6}[ \t]|---|===|\*{3}|-{3}|_{3}|!\[|[-*+][ \t]|\d+\.[ \t]|>[ \t]|<)/.test(
+        line,
+      )
+    )
       continue;
     if (line.trim() === "") {
       if (collected.length > 0) break;

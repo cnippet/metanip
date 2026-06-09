@@ -83,7 +83,11 @@ function PresetThumbnail({ preset }: { preset: RawPreset }) {
   );
 }
 
-export function PresetsGrid({ initialPresets }: { initialPresets: RawPreset[] }) {
+export function PresetsGrid({
+  initialPresets,
+}: {
+  initialPresets: RawPreset[];
+}) {
   const [presets, setPresets] = useState(initialPresets);
   const [deleting, setDeleting] = useState<string | null>(null);
 
@@ -124,7 +128,8 @@ export function PresetsGrid({ initialPresets }: { initialPresets: RawPreset[] })
       <div className="text-center py-20 text-muted-foreground">
         <p className="text-sm">No presets saved yet.</p>
         <p className="text-xs mt-1">
-          Open the editor and click &quot;Save preset&quot; to save your first one.
+          Open the editor and click &quot;Save preset&quot; to save your first
+          one.
         </p>
       </div>
     );

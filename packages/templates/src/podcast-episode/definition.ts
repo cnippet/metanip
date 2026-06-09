@@ -6,7 +6,8 @@ import { SatoriComponent } from "./satori";
 export const podcastEpisode: TemplateDefinition = {
   id: "podcast-episode",
   name: "Podcast Episode",
-  description: "Cover art + episode number, title, host name, and duration badge.",
+  description:
+    "Cover art + episode number, title, host name, and duration badge.",
   category: "podcast",
   supportedDimensions: [...STANDARD_DIMENSIONS],
   requiredFields: ["title"],
@@ -40,7 +41,8 @@ export const podcastEpisode: TemplateDefinition = {
   defaults: {
     metadata: {
       title: "Building in Public: Lessons from 100 Days",
-      description: "We cover the reality of shipping solo, handling rejection, and keeping momentum.",
+      description:
+        "We cover the reality of shipping solo, handling rejection, and keeping momentum.",
       author: "Jane Doe",
       siteName: "The Indie Podcast",
       tags: ["indie", "startup", "shipping"],

@@ -44,7 +44,12 @@ export function BrowserComponent({
 
       {/* Title + description */}
       <div
-        style={{ flex: 1, display: "flex", flexDirection: "column", justifyContent: "center" }}
+        style={{
+          flex: 1,
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "center",
+        }}
       >
         <h1
           style={{
@@ -76,7 +81,11 @@ export function BrowserComponent({
 
       {/* Footer */}
       <div
-        style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}
+        style={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "space-between",
+        }}
       >
         <div style={{ display: "flex", gap: 8 }}>
           {tags.slice(0, 3).map((tag) => (
@@ -96,7 +105,14 @@ export function BrowserComponent({
           ))}
         </div>
         {author && (
-          <span style={{ fontSize: 15, opacity: 0.78, color: textColor, fontWeight: 500 }}>
+          <span
+            style={{
+              fontSize: 15,
+              opacity: 0.78,
+              color: textColor,
+              fontWeight: 500,
+            }}
+          >
             {author}
           </span>
         )}

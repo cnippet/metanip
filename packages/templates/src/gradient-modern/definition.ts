@@ -6,13 +6,22 @@ import { SatoriComponent } from "./satori";
 export const gradientModern: TemplateDefinition = {
   id: "gradient-modern",
   name: "Gradient Modern",
-  description: "Vibrant diagonal gradient background with bold sans-serif typography.",
+  description:
+    "Vibrant diagonal gradient background with bold sans-serif typography.",
   category: "bold",
   supportedDimensions: [...STANDARD_DIMENSIONS],
   requiredFields: ["title"],
   customizations: {
-    gradientFrom: { type: "color", label: "Gradient Start", defaultValue: "#6366f1" },
-    gradientTo: { type: "color", label: "Gradient End", defaultValue: "#8b5cf6" },
+    gradientFrom: {
+      type: "color",
+      label: "Gradient Start",
+      defaultValue: "#6366f1",
+    },
+    gradientTo: {
+      type: "color",
+      label: "Gradient End",
+      defaultValue: "#8b5cf6",
+    },
     textColor: { type: "color", label: "Text", defaultValue: "#ffffff" },
     fontScale: {
       type: "slider",

@@ -1,6 +1,10 @@
 import type { TemplateProps } from "../shared/types";
 
-export function BrowserComponent({ metadata, customizations, dimensions }: TemplateProps) {
+export function BrowserComponent({
+  metadata,
+  customizations,
+  dimensions,
+}: TemplateProps) {
   const bg = (customizations["bgColor"] as string) ?? "#0f0a1e";
   const accent = (customizations["accentColor"] as string) ?? "#a855f7";
   const textColor = (customizations["textColor"] as string) ?? "#f8fafc";
@@ -69,7 +73,14 @@ export function BrowserComponent({ metadata, customizations, dimensions }: Templ
               flexShrink: 0,
             }}
           >
-            <div style={{ width: 10, height: 16, backgroundColor: textColor, borderRadius: 5 }} />
+            <div
+              style={{
+                width: 10,
+                height: 16,
+                backgroundColor: textColor,
+                borderRadius: 5,
+              }}
+            />
           </div>
           <span
             style={{
@@ -115,7 +126,14 @@ export function BrowserComponent({ metadata, customizations, dimensions }: Templ
       </div>
 
       {/* Title */}
-      <div style={{ flex: 1, display: "flex", flexDirection: "column", justifyContent: "center" }}>
+      <div
+        style={{
+          flex: 1,
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "center",
+        }}
+      >
         <h1
           style={{
             fontSize: isWide ? 52 : 44,

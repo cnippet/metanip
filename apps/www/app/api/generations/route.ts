@@ -40,14 +40,19 @@ export async function POST(req: Request) {
   };
 
   if (!body.templateId) {
-    return NextResponse.json({ error: "templateId is required" }, { status: 400 });
+    return NextResponse.json(
+      { error: "templateId is required" },
+      { status: 400 },
+    );
   }
 
   let imageUrl: string | null = null;
   let imagePublicId: string | null = null;
 
   if (body.dataUrl) {
-    const result = await upload(body.dataUrl, { folder: "metanip/generations" });
+    const result = await upload(body.dataUrl, {
+      folder: "metanip/generations",
+    });
     if (result) {
       imageUrl = result.url;
       imagePublicId = result.publicId;

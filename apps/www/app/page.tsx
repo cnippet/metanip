@@ -1,7 +1,12 @@
 "use client";
 
 import { type Metadata, MetadataSchema } from "@repo/metadata";
-import { type TemplateCategory, type TemplateDefinition, getAllCategories, templates } from "@repo/templates";
+import {
+  type TemplateCategory,
+  type TemplateDefinition,
+  getAllCategories,
+  templates,
+} from "@repo/templates";
 import { LinkIcon, SearchIcon, UploadIcon, XIcon } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useEffect, useMemo, useRef, useState } from "react";
@@ -155,14 +160,17 @@ export default function Home() {
   const [scraped, setScraped] = useState<Scraped | null>(null);
   const [error, setError] = useState("");
   const fileRef = useRef<HTMLInputElement>(null);
-  const [activeCategory, setActiveCategory] = useState<TemplateCategory | "all">("all");
+  const [activeCategory, setActiveCategory] = useState<
+    TemplateCategory | "all"
+  >("all");
   const [search, setSearch] = useState("");
 
   const categories = useMemo(() => getAllCategories(), []);
 
   const filteredTemplates = useMemo(() => {
     return templates.filter((t) => {
-      const categoryMatch = activeCategory === "all" || t.category === activeCategory;
+      const categoryMatch =
+        activeCategory === "all" || t.category === activeCategory;
       const searchMatch =
         search.trim() === "" ||
         t.name.toLowerCase().includes(search.toLowerCase()) ||
@@ -362,7 +370,9 @@ export default function Home() {
                 All ({templates.length})
               </button>
               {categories.map((cat) => {
-                const count = templates.filter((t) => t.category === cat).length;
+                const count = templates.filter(
+                  (t) => t.category === cat,
+                ).length;
                 return (
                   <button
                     key={cat}
@@ -393,10 +403,14 @@ export default function Home() {
             </div>
           ) : (
             <div className="py-16 text-center text-sm text-muted-foreground">
-              No templates match <span className="font-medium">"{search}"</span>.{" "}
+              No templates match <span className="font-medium">"{search}"</span>
+              .{" "}
               <button
                 className="underline underline-offset-2"
-                onClick={() => { setSearch(""); setActiveCategory("all"); }}
+                onClick={() => {
+                  setSearch("");
+                  setActiveCategory("all");
+                }}
                 type="button"
               >
                 Clear filters

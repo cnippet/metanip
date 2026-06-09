@@ -20,9 +20,11 @@ export const signIn: BetterAuthClientBase["signIn"] = _base.signIn;
 export const signUp: BetterAuthClientBase["signUp"] = _base.signUp;
 export const signOut: BetterAuthClientBase["signOut"] = _base.signOut;
 export const useSession: BetterAuthClientBase["useSession"] = _base.useSession;
-export const changePassword: BetterAuthClientBase["changePassword"] = _base.changePassword;
+export const changePassword: BetterAuthClientBase["changePassword"] =
+  _base.changePassword;
 export const linkSocial: BetterAuthClientBase["linkSocial"] = _base.linkSocial;
-export const unlinkAccount: BetterAuthClientBase["unlinkAccount"] = _base.unlinkAccount;
+export const unlinkAccount: BetterAuthClientBase["unlinkAccount"] =
+  _base.unlinkAccount;
 
 // forgetPassword and resetPassword exist at runtime via better-auth's dynamic
 // proxy but are absent from the TypeScript types without explicit server-type

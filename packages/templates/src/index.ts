@@ -1,4 +1,9 @@
-export { templates, getTemplate, getTemplatesByCategory, getAllCategories } from "./registry";
+export {
+  templates,
+  getTemplate,
+  getTemplatesByCategory,
+  getAllCategories,
+} from "./registry";
 export type {
   Dimension,
   CustomizationControl,
@@ -7,5 +12,16 @@ export type {
   TemplateCategory,
   TemplateDefinition,
 } from "./shared/types";
-export { colors, fontFamilies, spacing, fontSizes, STANDARD_DIMENSIONS } from "./shared/tokens";
-export { googleFontsUrl, satoriFont, loadFontBuffer, loadInterFonts } from "./shared/fonts";
+export {
+  colors,
+  fontFamilies,
+  spacing,
+  fontSizes,
+  STANDARD_DIMENSIONS,
+} from "./shared/tokens";
+export {
+  googleFontsUrl,
+  satoriFont,
+  loadFontBuffer,
+  loadInterFonts,
+} from "./shared/fonts";

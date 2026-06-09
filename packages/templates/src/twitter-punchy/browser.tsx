@@ -1,12 +1,23 @@
 import type { TemplateProps } from "../shared/types";
 
-export function BrowserComponent({ metadata, customizations, dimensions }: TemplateProps) {
+export function BrowserComponent({
+  metadata,
+  customizations,
+  dimensions,
+}: TemplateProps) {
   const bg = (customizations["bgColor"] as string) ?? "#000000";
   const textColor = (customizations["textColor"] as string) ?? "#ffffff";
   const accent = (customizations["accentColor"] as string) ?? "#1d9bf0";
   const showHandle = (customizations["showHandle"] as boolean) ?? true;
   const scale = (customizations["fontScale"] as number) ?? 1;
-  const { title, description, author, authorHandle, siteName, tags = [] } = metadata;
+  const {
+    title,
+    description,
+    author,
+    authorHandle,
+    siteName,
+    tags = [],
+  } = metadata;
 
   const isWide = dimensions.w > dimensions.h;
 
@@ -62,7 +73,9 @@ export function BrowserComponent({ metadata, customizations, dimensions }: Templ
             flexShrink: 0,
           }}
         >
-          <span style={{ color: "#fff", fontWeight: 900, fontSize: 16 }}>𝕏</span>
+          <span style={{ color: "#fff", fontWeight: 900, fontSize: 16 }}>
+            𝕏
+          </span>
         </div>
         <span style={{ fontSize: 14, opacity: 0.4, color: textColor }}>
           {siteName ?? "Thread"}
@@ -70,7 +83,14 @@ export function BrowserComponent({ metadata, customizations, dimensions }: Templ
       </div>
 
       {/* Title — the punchline */}
-      <div style={{ flex: 1, display: "flex", flexDirection: "column", justifyContent: "center" }}>
+      <div
+        style={{
+          flex: 1,
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "center",
+        }}
+      >
         <h1
           style={{
             fontSize: Math.round((isWide ? 62 : 52) * scale),
@@ -143,10 +163,16 @@ export function BrowserComponent({ metadata, customizations, dimensions }: Templ
             />
             <div style={{ display: "flex", flexDirection: "column", gap: 1 }}>
               {author && (
-                <span style={{ fontSize: 13, fontWeight: 600, color: textColor }}>{author}</span>
+                <span
+                  style={{ fontSize: 13, fontWeight: 600, color: textColor }}
+                >
+                  {author}
+                </span>
               )}
               {authorHandle && (
-                <span style={{ fontSize: 12, color: accent, opacity: 0.8 }}>{authorHandle}</span>
+                <span style={{ fontSize: 12, color: accent, opacity: 0.8 }}>
+                  {authorHandle}
+                </span>
               )}
             </div>
           </div>

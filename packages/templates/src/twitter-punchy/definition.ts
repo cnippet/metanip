@@ -6,7 +6,8 @@ import { SatoriComponent } from "./satori";
 export const twitterPunchy: TemplateDefinition = {
   id: "twitter-punchy",
   name: "Twitter Punchy",
-  description: "High-contrast, opinion-forward layout optimised for Twitter/X 1600×900 card previews.",
+  description:
+    "High-contrast, opinion-forward layout optimised for Twitter/X 1600×900 card previews.",
   category: "social",
   supportedDimensions: [
     { w: 1600, h: 900, label: "Twitter" },
@@ -48,7 +49,8 @@ export const twitterPunchy: TemplateDefinition = {
   defaults: {
     metadata: {
       title: "Hot take: most performance advice is wrong.",
-      description: "Profiling 200 production apps taught me the real bottlenecks nobody talks about.",
+      description:
+        "Profiling 200 production apps taught me the real bottlenecks nobody talks about.",
       author: "Ali Hassan",
       authorHandle: "@alihasandev",
       siteName: "Thread",

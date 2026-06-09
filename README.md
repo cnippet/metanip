@@ -13,19 +13,19 @@ A hybrid featured-image generation tool. Browser-based live editor for humans, S
 
 ## Tech stack
 
-| Layer | Choice |
-|---|---|
-| Framework | Next.js 16 (App Router) |
-| Monorepo | Turborepo + Bun |
-| Language | TypeScript (strict) |
-| Styling | Tailwind CSS v4 |
-| Database | PostgreSQL + Prisma v7 |
-| Auth | better-auth (Google OAuth + magic link via Resend) |
-| Email | Resend |
-| Storage | Cloudinary / Cloudflare R2 |
-| Browser → PNG | `html-to-image` |
-| Server → PNG | `@vercel/og` (Satori) |
-| State | Zustand + React Hook Form + Zod |
+| Layer         | Choice                                             |
+| ------------- | -------------------------------------------------- |
+| Framework     | Next.js 16 (App Router)                            |
+| Monorepo      | Turborepo + Bun                                    |
+| Language      | TypeScript (strict)                                |
+| Styling       | Tailwind CSS v4                                    |
+| Database      | PostgreSQL + Prisma v7                             |
+| Auth          | better-auth (Google OAuth + magic link via Resend) |
+| Email         | Resend                                             |
+| Storage       | Cloudinary / Cloudflare R2                         |
+| Browser → PNG | `html-to-image`                                    |
+| Server → PNG  | `@vercel/og` (Satori)                              |
+| State         | Zustand + React Hook Form + Zod                    |
 
 ## Monorepo structure
 

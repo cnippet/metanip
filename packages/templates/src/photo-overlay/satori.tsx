@@ -3,13 +3,24 @@
 // If heroImage is present it's loaded via <img> — Satori supports external URLs directly.
 import type { TemplateProps } from "../shared/types";
 
-export function SatoriComponent({ metadata, customizations, dimensions }: TemplateProps) {
+export function SatoriComponent({
+  metadata,
+  customizations,
+  dimensions,
+}: TemplateProps) {
   const overlayColor = (customizations["overlayColor"] as string) ?? "#000000";
   const overlayOpacity = (customizations["overlayOpacity"] as number) ?? 0.6;
   const textColor = (customizations["textColor"] as string) ?? "#ffffff";
   const accent = (customizations["accentColor"] as string) ?? "#f59e0b";
   const fallbackBg = (customizations["fallbackBg"] as string) ?? "#1e293b";
-  const { title, description, author, siteName, heroImage, tags = [] } = metadata;
+  const {
+    title,
+    description,
+    author,
+    siteName,
+    heroImage,
+    tags = [],
+  } = metadata;
 
   // Satori does not support position:absolute stacking, so we use a dark overlay bg
   // and render the image as a tinted background approximation via a left-anchored image div.
@@ -125,7 +136,14 @@ export function SatoriComponent({ metadata, customizations, dimensions }: Templa
           ))}
         </div>
         {author ? (
-          <div style={{ display: "flex", fontSize: 14, opacity: 0.6, color: textColor }}>
+          <div
+            style={{
+              display: "flex",
+              fontSize: 14,
+              opacity: 0.6,
+              color: textColor,
+            }}
+          >
             {author}
           </div>
         ) : null}

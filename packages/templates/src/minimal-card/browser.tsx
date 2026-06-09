@@ -38,7 +38,14 @@ export function BrowserComponent({
       />
 
       {/* Body */}
-      <div style={{ display: "flex", flexDirection: "column", flex: 1, minHeight: 0 }}>
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          flex: 1,
+          minHeight: 0,
+        }}
+      >
         <h1
           style={{
             fontSize: Math.round(52 * scale),

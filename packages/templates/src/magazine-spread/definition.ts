@@ -6,7 +6,8 @@ import { SatoriComponent } from "./satori";
 export const magazineSpread: TemplateDefinition = {
   id: "magazine-spread",
   name: "Magazine Spread",
-  description: "Asymmetric two-column layout: oversized category label left, headline and byline right.",
+  description:
+    "Asymmetric two-column layout: oversized category label left, headline and byline right.",
   category: "editorial",
   supportedDimensions: [...STANDARD_DIMENSIONS],
   requiredFields: ["title"],
@@ -40,7 +41,8 @@ export const magazineSpread: TemplateDefinition = {
   defaults: {
     metadata: {
       title: "The Rise of the Indie Developer",
-      description: "How small teams are out-shipping giants and redefining what software looks like.",
+      description:
+        "How small teams are out-shipping giants and redefining what software looks like.",
       author: "Maria Santos",
       siteName: "Increment",
       publishedAt: new Date("2024-03-15"),
