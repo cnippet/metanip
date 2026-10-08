@@ -1,4 +1,4 @@
-import crypto from "crypto";
+import crypto from "node:crypto";
 
 const PREFIX = "mnp_";
 
@@ -9,8 +9,8 @@ export function generateApiKey(): {
 } {
   const raw = PREFIX + crypto.randomBytes(32).toString("base64url");
   const hash = hashApiKey(raw);
-  const prefix = raw.slice(0, 16) + "…";
-  return { raw, hash, prefix };
+  const prefix = `${raw.slice(0, 16)}…`;
+  return { hash, prefix, raw };
 }
 
 export function hashApiKey(raw: string): string {

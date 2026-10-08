@@ -1,6 +1,8 @@
+import { auth } from "@repo/auth/server";
 import { prisma } from "@repo/database";
 import { MetadataSchema } from "@repo/metadata";
 import { getTemplate, loadInterFonts } from "@repo/templates";
+import { headers } from "next/headers";
 import { ImageResponse } from "next/og";
 import type { NextRequest } from "next/server";
 import { extractBearerToken, hashApiKey } from "@/lib/api-key";
@@ -9,8 +11,6 @@ import {
   authedOgLimit,
   getClientIp,
 } from "@/lib/upstash-rate-limit";
-import { auth } from "@repo/auth/server";
-import { headers } from "next/headers";
 
 // Node.js runtime — required for Prisma (API key lookup) and crypto
 export const runtime = "nodejs";
@@ -29,16 +29,16 @@ async function resolveIdentity(
   if (rawKey) {
     const hash = hashApiKey(rawKey);
     const apiKey = await prisma.apiKey.findUnique({
-      where: { keyHash: hash },
       select: { id: true, userId: true },
+      where: { keyHash: hash },
     });
     if (apiKey) {
       // Update usage in background — don't await to keep response fast
       void prisma.apiKey.update({
+        data: { lastUsedAt: new Date(), usageCount: { increment: 1 } },
         where: { id: apiKey.id },
-        data: { usageCount: { increment: 1 }, lastUsedAt: new Date() },
       });
-      return { type: "authed", id: apiKey.userId, apiKeyId: apiKey.id };
+      return { apiKeyId: apiKey.id, id: apiKey.userId, type: "authed" };
     }
     // Invalid key — treat as anon (or you could return 401; being lenient here)
   }
@@ -46,10 +46,10 @@ async function resolveIdentity(
   // 2. Check session cookie
   const session = await auth.api.getSession({ headers: await headers() });
   if (session) {
-    return { type: "authed", id: session.user.id };
+    return { id: session.user.id, type: "authed" };
   }
 
-  return { type: "anon", ip: getClientIp(request) };
+  return { ip: getClientIp(request), type: "anon" };
 }
 
 export async function GET(request: NextRequest) {
@@ -68,13 +68,13 @@ export async function GET(request: NextRequest) {
           return new Response(
             "Rate limit exceeded. 10 requests per hour for anonymous callers.",
             {
-              status: 429,
               headers: {
+                "Retry-After": String(Math.ceil((reset - Date.now()) / 1000)),
                 "X-RateLimit-Limit": String(limit),
                 "X-RateLimit-Remaining": String(remaining),
                 "X-RateLimit-Reset": String(reset),
-                "Retry-After": String(Math.ceil((reset - Date.now()) / 1000)),
               },
+              status: 429,
             },
           );
         }
@@ -88,13 +88,13 @@ export async function GET(request: NextRequest) {
           return new Response(
             "Rate limit exceeded. 100 requests per day for authenticated callers.",
             {
-              status: 429,
               headers: {
+                "Retry-After": String(Math.ceil((reset - Date.now()) / 1000)),
                 "X-RateLimit-Limit": String(limit),
                 "X-RateLimit-Remaining": String(remaining),
                 "X-RateLimit-Reset": String(reset),
-                "Retry-After": String(Math.ceil((reset - Date.now()) / 1000)),
               },
+              status: 429,
             },
           );
         }
@@ -133,9 +133,9 @@ export async function GET(request: NextRequest) {
       if (val !== null) rawMetadata[field] = val;
     }
     const tags = searchParams.getAll("tags");
-    if (tags.length > 0) rawMetadata["tags"] = tags;
+    if (tags.length > 0) rawMetadata.tags = tags;
     const readingTime = searchParams.get("readingTime");
-    if (readingTime) rawMetadata["readingTime"] = Number(readingTime);
+    if (readingTime) rawMetadata.readingTime = Number(readingTime);
 
     const metadata = MetadataSchema.parse({
       title: "Untitled",
@@ -150,7 +150,8 @@ export async function GET(request: NextRequest) {
     for (const [key, control] of Object.entries(template.customizations)) {
       const val = searchParams.get(key);
       if (val === null) continue;
-      if (control.type === "slider") customizations[key] = parseFloat(val);
+      if (control.type === "slider")
+        customizations[key] = Number.parseFloat(val);
       else if (control.type === "toggle") customizations[key] = val === "true";
       else customizations[key] = val;
     }
@@ -176,17 +177,17 @@ export async function GET(request: NextRequest) {
 
     return new ImageResponse(
       <SatoriComponent
-        metadata={metadata}
         customizations={customizations}
         dimensions={dimension}
+        metadata={metadata}
       />,
       {
-        width: dimension.w,
-        height: dimension.h,
         fonts,
         headers: {
           "Cache-Control": "public, immutable, max-age=31536000",
         },
+        height: dimension.h,
+        width: dimension.w,
       },
     );
   } catch (err) {

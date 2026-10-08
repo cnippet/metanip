@@ -1,3 +1,5 @@
+//biome-ignore-all lint/style/noNonNullAssertion:<>
+
 "use client";
 
 import { DownloadIcon, TrashIcon } from "lucide-react";
@@ -45,9 +47,9 @@ export function HistoryList({
 
   if (generations.length === 0) {
     return (
-      <div className="text-center py-20 text-muted-foreground">
+      <div className="py-20 text-center text-muted-foreground">
         <p className="text-sm">No generations yet.</p>
-        <p className="text-xs mt-1">
+        <p className="mt-1 text-xs">
           Download an image from the editor to track it here.
         </p>
       </div>
@@ -55,27 +57,27 @@ export function HistoryList({
   }
 
   return (
-    <div className="divide-y rounded-xl border bg-card overflow-hidden">
+    <div className="divide-y overflow-hidden rounded-xl border bg-card">
       {generations.map((gen) => (
-        <div key={gen.id} className="flex items-center gap-4 px-4 py-3">
+        <div className="flex items-center gap-4 px-4 py-3" key={gen.id}>
           {gen.imageUrl ? (
             // eslint-disable-next-line @next/next/no-img-element
             <img
               alt={getTitle(gen.metadata)}
-              className="h-12 w-20 rounded object-cover shrink-0 border"
+              className="h-12 w-20 shrink-0 rounded border object-cover"
               src={gen.imageUrl}
             />
           ) : (
-            <div className="h-12 w-20 rounded border bg-muted shrink-0 flex items-center justify-center text-[10px] text-muted-foreground">
+            <div className="flex h-12 w-20 shrink-0 items-center justify-center rounded border bg-muted text-[10px] text-muted-foreground">
               No image
             </div>
           )}
 
-          <div className="flex-1 min-w-0">
-            <p className="font-medium text-sm truncate">
+          <div className="min-w-0 flex-1">
+            <p className="truncate font-medium text-sm">
               {getTitle(gen.metadata)}
             </p>
-            <p className="text-xs text-muted-foreground mt-0.5">
+            <p className="mt-0.5 text-muted-foreground text-xs">
               {new Date(gen.createdAt).toLocaleString()}
             </p>
           </div>
@@ -84,7 +86,7 @@ export function HistoryList({
             {gen.templateId}
           </Badge>
 
-          <div className="flex items-center gap-1 shrink-0">
+          <div className="flex shrink-0 items-center gap-1">
             {gen.imageUrl && (
               <Button
                 onClick={() => window.open(gen.imageUrl!, "_blank")}

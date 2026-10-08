@@ -1,5 +1,5 @@
-import { prisma } from "@repo/database";
 import { auth } from "@repo/auth/server";
+import { prisma } from "@repo/database";
 import { upload } from "@repo/storage";
 import { headers } from "next/headers";
 import { NextResponse } from "next/server";
@@ -11,16 +11,16 @@ export async function GET() {
   }
 
   const generations = await prisma.generation.findMany({
-    where: { userId: session.user.id },
     orderBy: { createdAt: "desc" },
-    take: 50,
     select: {
+      createdAt: true,
       id: true,
-      templateId: true,
       imageUrl: true,
       metadata: true,
-      createdAt: true,
+      templateId: true,
     },
+    take: 50,
+    where: { userId: session.user.id },
   });
 
   return NextResponse.json({ generations });
@@ -61,12 +61,12 @@ export async function POST(req: Request) {
 
   const generation = await prisma.generation.create({
     data: {
-      userId: session.user.id,
-      templateId: body.templateId,
-      metadata: body.metadata ?? {},
       customizations: body.customizations ?? {},
-      imageUrl,
       imagePublicId,
+      imageUrl,
+      metadata: body.metadata ?? {},
+      templateId: body.templateId,
+      userId: session.user.id,
     },
     select: { id: true },
   });

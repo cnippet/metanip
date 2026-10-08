@@ -24,7 +24,7 @@ export async function POST(request: Request) {
   if (
     typeof body !== "object" ||
     body === null ||
-    typeof (body as Record<string, unknown>)["content"] !== "string"
+    typeof (body as Record<string, unknown>).content !== "string"
   ) {
     return Response.json(
       { error: 'Missing required field: "content" (string).' },
@@ -32,7 +32,7 @@ export async function POST(request: Request) {
     );
   }
 
-  const content = (body as Record<string, unknown>)["content"] as string;
+  const content = (body as Record<string, unknown>).content as string;
   if (!content.trim()) {
     return Response.json(
       { error: '"content" must not be empty.' },

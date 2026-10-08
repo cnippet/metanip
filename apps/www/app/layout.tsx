@@ -5,19 +5,19 @@ import { ToastProvider } from "@/components/ui/toast";
 import "./globals.css";
 
 const geistSans = Geist({
-  variable: "--font-geist-sans",
   subsets: ["latin"],
+  variable: "--font-geist-sans",
 });
 
 const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
   subsets: ["latin"],
+  variable: "--font-geist-mono",
 });
 
 export const metadata: Metadata = {
-  title: "Metanip — Featured Image Generator",
   description:
     "Generate beautiful featured images for blog posts, social media, and more.",
+  title: "Metanip — Featured Image Generator",
 };
 
 export default function RootLayout({
@@ -27,10 +27,10 @@ export default function RootLayout({
 }>) {
   return (
     <html
-      lang="en"
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
+      lang="en"
     >
-      <body className="min-h-full flex flex-col">
+      <body className="flex min-h-full flex-col">
         <ToastProvider>
           <Header />
           {children}

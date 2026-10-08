@@ -1,9 +1,9 @@
-import { prisma } from "@repo/database";
 import { auth } from "@repo/auth/server";
+import { prisma } from "@repo/database";
 import { KeyRoundIcon } from "lucide-react";
 import { headers } from "next/headers";
-import { redirect } from "next/navigation";
 import Link from "next/link";
+import { redirect } from "next/navigation";
 import { ApiKeyManager } from "./api-key-manager";
 
 export default async function ApiKeysPage() {
@@ -11,30 +11,30 @@ export default async function ApiKeysPage() {
   if (!session) redirect("/login");
 
   const apiKeys = await prisma.apiKey.findMany({
-    where: { userId: session.user.id },
     orderBy: { createdAt: "desc" },
     select: {
-      id: true,
-      name: true,
-      keyPrefix: true,
-      usageCount: true,
-      lastUsedAt: true,
       createdAt: true,
+      id: true,
+      keyPrefix: true,
+      lastUsedAt: true,
+      name: true,
+      usageCount: true,
     },
+    where: { userId: session.user.id },
   });
 
   const serialized = apiKeys.map((k) => ({
     ...k,
-    lastUsedAt: k.lastUsedAt?.toISOString() ?? null,
     createdAt: k.createdAt.toISOString(),
+    lastUsedAt: k.lastUsedAt?.toISOString() ?? null,
   }));
 
   return (
     <main className="mx-auto max-w-4xl px-4 py-12 sm:px-6">
-      <div className="flex items-center gap-2 text-muted-foreground text-sm mb-1">
+      <div className="mb-1 flex items-center gap-2 text-muted-foreground text-sm">
         <Link
+          className="transition-colors hover:text-foreground"
           href="/dashboard"
-          className="hover:text-foreground transition-colors"
         >
           Dashboard
         </Link>
@@ -42,21 +42,21 @@ export default async function ApiKeysPage() {
         <span className="text-foreground">API Keys</span>
       </div>
 
-      <div className="flex items-start justify-between mb-8">
+      <div className="mb-8 flex items-start justify-between">
         <div>
-          <h1 className="text-2xl font-semibold flex items-center gap-2">
+          <h1 className="flex items-center gap-2 font-semibold text-2xl">
             <KeyRoundIcon className="size-5" />
             API Keys
           </h1>
-          <p className="text-muted-foreground text-sm mt-1">
+          <p className="mt-1 text-muted-foreground text-sm">
             Use these keys to call{" "}
             <code className="font-mono text-xs">/api/og</code> programmatically.
             Keys are shown only once at creation.
           </p>
         </div>
         <Link
+          className="text-muted-foreground text-sm transition-colors hover:text-foreground"
           href="/docs/api"
-          className="text-sm text-muted-foreground hover:text-foreground transition-colors"
         >
           View API docs →
         </Link>

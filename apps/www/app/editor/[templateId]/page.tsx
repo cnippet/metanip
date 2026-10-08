@@ -14,7 +14,7 @@ export default async function EditorPage({
   return (
     <Suspense
       fallback={
-        <div className="h-screen flex items-center justify-center text-muted-foreground text-sm">
+        <div className="flex h-screen items-center justify-center text-muted-foreground text-sm">
           Loading editor…
         </div>
       }

@@ -18,7 +18,8 @@
     "build": "turbo run build",
     "check-types": "turbo run check-types",
     "dev": "turbo run dev",
-    "format": "prettier --write \"**/*.{ts,tsx,md}\"",
+    "format": "biome format --write .",
+    "format:all": "biome check --write --unsafe --no-errors-on-unmatched",
     "lint": "turbo run lint"
   },
   "workspaces": [

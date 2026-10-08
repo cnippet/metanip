@@ -5,7 +5,7 @@ function makeRedis() {
   const url = process.env.UPSTASH_REDIS_REST_URL;
   const token = process.env.UPSTASH_REDIS_REST_TOKEN;
   if (!url || !token) return null;
-  return new Redis({ url, token });
+  return new Redis({ token, url });
 }
 
 const redis = makeRedis();
@@ -13,18 +13,18 @@ const redis = makeRedis();
 // Anonymous callers: 10 req / hour per IP
 export const anonOgLimit = redis
   ? new Ratelimit({
-      redis,
       limiter: Ratelimit.slidingWindow(10, "1 h"),
       prefix: "og:anon",
+      redis,
     })
   : null;
 
 // Authenticated (session or API key): 100 req / day per user/key
 export const authedOgLimit = redis
   ? new Ratelimit({
-      redis,
       limiter: Ratelimit.slidingWindow(100, "1 d"),
       prefix: "og:authed",
+      redis,
     })
   : null;
 

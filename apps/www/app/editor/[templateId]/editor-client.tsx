@@ -1,3 +1,5 @@
+//biome-ignore-all lint/style/noNonNullAssertion:<>
+
 "use client";
 
 import { useSession } from "@repo/auth/client";
@@ -96,8 +98,7 @@ function ColorControl({
 }) {
   const [local, setLocal] = useState(value);
 
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  const debouncedChange = useCallback(debounce(onChange, 60), [onChange]);
+  const debouncedChange = useCallback(debounce(onChange, 60), []);
 
   useEffect(() => setLocal(value), [value]);
 
@@ -109,7 +110,7 @@ function ColorControl({
   return (
     <div className="flex items-center gap-2">
       <input
-        className="size-8 shrink-0 rounded-md border border-input bg-transparent cursor-pointer p-0.5"
+        className="size-8 shrink-0 cursor-pointer rounded-md border border-input bg-transparent p-0.5"
         onChange={(e) => handleChange(e.target.value)}
         type="color"
         value={local}
@@ -148,7 +149,7 @@ function ControlRow({
 
   return (
     <div className="flex flex-col gap-1.5">
-      <Label className="text-xs text-muted-foreground">{label}</Label>
+      <Label className="text-muted-foreground text-xs">{label}</Label>
       {control.type === "color" && (
         <ColorControl onChange={onChange} value={value as string} />
       )}
@@ -172,7 +173,7 @@ function ControlRow({
             step={control.step ?? 0.01}
             value={[value as number]}
           />
-          <span className="text-xs text-muted-foreground w-8 text-right tabular-nums">
+          <span className="w-8 text-right text-muted-foreground text-xs tabular-nums">
             {(value as number).toFixed(2)}
           </span>
         </div>
@@ -198,7 +199,7 @@ function ControlRow({
             onCheckedChange={onChange}
             size="sm"
           />
-          <span className="text-xs text-muted-foreground">
+          <span className="text-muted-foreground text-xs">
             {(value as boolean) ? "On" : "Off"}
           </span>
         </div>
@@ -225,9 +226,9 @@ function CustomizationsPanel({ template }: { template: TemplateDefinition }) {
   const resetCustomizations = useEditorStore((s) => s.resetCustomizations);
 
   return (
-    <div className="flex flex-col h-full">
-      <div className="flex items-center justify-between px-4 py-3 border-b">
-        <span className="text-sm font-medium">Customize</span>
+    <div className="flex h-full flex-col">
+      <div className="flex items-center justify-between border-b px-4 py-3">
+        <span className="font-medium text-sm">Customize</span>
         <Button
           onClick={() => resetCustomizations(template.defaults.customizations)}
           size="icon-xs"
@@ -237,7 +238,7 @@ function CustomizationsPanel({ template }: { template: TemplateDefinition }) {
           <RotateCcwIcon />
         </Button>
       </div>
-      <div className="flex-1 overflow-y-auto p-4 flex flex-col gap-4">
+      <div className="flex flex-1 flex-col gap-4 overflow-y-auto p-4">
         {Object.entries(template.customizations).map(([key, control]) => (
           <ControlRow
             control={control}
@@ -275,9 +276,9 @@ function MetadataPanel({
   }
 
   return (
-    <div className="flex flex-col h-full">
-      <div className="flex items-center justify-between px-4 py-3 border-b">
-        <span className="text-sm font-medium">Metadata</span>
+    <div className="flex h-full flex-col">
+      <div className="flex items-center justify-between border-b px-4 py-3">
+        <span className="font-medium text-sm">Metadata</span>
         <Button
           onClick={resetMeta}
           size="icon-xs"
@@ -287,10 +288,10 @@ function MetadataPanel({
           <RotateCcwIcon />
         </Button>
       </div>
-      <div className="flex-1 overflow-y-auto p-4 flex flex-col gap-4">
+      <div className="flex flex-1 flex-col gap-4 overflow-y-auto p-4">
         {/* Title */}
         <div className="flex flex-col gap-1.5">
-          <Label className="text-xs text-muted-foreground">Title *</Label>
+          <Label className="text-muted-foreground text-xs">Title *</Label>
           <Input
             nativeInput
             onChange={(e) =>
@@ -301,7 +302,7 @@ function MetadataPanel({
         </div>
         {/* Subtitle */}
         <div className="flex flex-col gap-1.5">
-          <Label className="text-xs text-muted-foreground">Subtitle</Label>
+          <Label className="text-muted-foreground text-xs">Subtitle</Label>
           <Input
             nativeInput
             onChange={(e) =>
@@ -315,7 +316,7 @@ function MetadataPanel({
         </div>
         {/* Description */}
         <div className="flex flex-col gap-1.5">
-          <Label className="text-xs text-muted-foreground">Description</Label>
+          <Label className="text-muted-foreground text-xs">Description</Label>
           <Textarea
             onChange={(e) =>
               setField("description", e.target.value || undefined)
@@ -326,7 +327,7 @@ function MetadataPanel({
         </div>
         {/* Author */}
         <div className="flex flex-col gap-1.5">
-          <Label className="text-xs text-muted-foreground">Author</Label>
+          <Label className="text-muted-foreground text-xs">Author</Label>
           <Input
             nativeInput
             onChange={(e) =>
@@ -340,7 +341,7 @@ function MetadataPanel({
         </div>
         {/* Site name */}
         <div className="flex flex-col gap-1.5">
-          <Label className="text-xs text-muted-foreground">Site Name</Label>
+          <Label className="text-muted-foreground text-xs">Site Name</Label>
           <Input
             nativeInput
             onChange={(e) =>
@@ -354,7 +355,7 @@ function MetadataPanel({
         </div>
         {/* Tags */}
         <div className="flex flex-col gap-1.5">
-          <Label className="text-xs text-muted-foreground">
+          <Label className="text-muted-foreground text-xs">
             Tags (comma-separated)
           </Label>
           <Input
@@ -373,7 +374,7 @@ function MetadataPanel({
         <Separator />
         {/* Reading time */}
         <div className="flex flex-col gap-1.5">
-          <Label className="text-xs text-muted-foreground">
+          <Label className="text-muted-foreground text-xs">
             Reading Time (min)
           </Label>
           <Input
@@ -381,7 +382,7 @@ function MetadataPanel({
             nativeInput
             onChange={(e) => {
               const n = Number.parseFloat((e.target as HTMLInputElement).value);
-              setField("readingTime", isNaN(n) ? undefined : n);
+              setField("readingTime", Number.isNaN(n) ? undefined : n);
             }}
             type="number"
             value={metadata.readingTime ?? ""}
@@ -389,7 +390,7 @@ function MetadataPanel({
         </div>
         {/* Published at */}
         <div className="flex flex-col gap-1.5">
-          <Label className="text-xs text-muted-foreground">Published At</Label>
+          <Label className="text-muted-foreground text-xs">Published At</Label>
           <Input
             nativeInput
             onChange={(e) => {
@@ -444,12 +445,12 @@ function PreviewContainer({
 
   return (
     <div
-      className="flex-1 flex items-center justify-center overflow-hidden p-6 bg-zinc-100 dark:bg-zinc-900"
+      className="flex flex-1 items-center justify-center overflow-hidden bg-zinc-100 p-6 dark:bg-zinc-900"
       ref={containerRef}
     >
       <div style={{ height: scaledH, width: scaledW }}>
         <div
-          className="shadow-2xl rounded-lg overflow-hidden"
+          className="overflow-hidden rounded-lg shadow-2xl"
           ref={previewRef}
           style={{
             height: dimensions.h,
@@ -547,15 +548,15 @@ function EditorTopbar({
   const setDimensions = useEditorStore((s) => s.setDimensions);
 
   return (
-    <div className="h-12 shrink-0 flex items-center gap-3 border-b bg-background px-4">
+    <div className="flex h-12 shrink-0 items-center gap-3 border-b bg-background px-4">
       <Link
-        className="text-muted-foreground hover:text-foreground transition-colors"
+        className="text-muted-foreground transition-colors hover:text-foreground"
         href="/"
       >
         <ArrowLeftIcon className="size-4" />
       </Link>
       <Separator className="h-5" orientation="vertical" />
-      <span className="font-medium text-sm text-foreground">
+      <span className="font-medium text-foreground text-sm">
         {template.name}
       </span>
       <Badge variant="secondary">{template.category}</Badge>
@@ -573,7 +574,7 @@ function EditorTopbar({
             <DropdownMenuLabel>Saved presets</DropdownMenuLabel>
             <DropdownMenuSeparator />
             {presets.length === 0 ? (
-              <div className="px-2 py-3 text-xs text-muted-foreground text-center">
+              <div className="px-2 py-3 text-center text-muted-foreground text-xs">
                 No presets saved yet
               </div>
             ) : (
@@ -678,7 +679,14 @@ export function EditorClient({ templateId }: { templateId: string }) {
     });
     setIsReady(true);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [template.id]);
+  }, [
+    template.id,
+    searchParams.get,
+    template.supportedDimensions[0],
+    template.defaults.metadata,
+    template.defaults.customizations,
+    init,
+  ]);
 
   // Fetch presets for this template when logged in
   useEffect(() => {
@@ -776,7 +784,7 @@ export function EditorClient({ templateId }: { templateId: string }) {
 
   if (!isReady) {
     return (
-      <div className="h-screen flex items-center justify-center text-muted-foreground text-sm">
+      <div className="flex h-screen items-center justify-center text-muted-foreground text-sm">
         Loading…
       </div>
     );
@@ -786,7 +794,7 @@ export function EditorClient({ templateId }: { templateId: string }) {
     "w-72 shrink-0 border bg-background flex flex-col overflow-hidden";
 
   return (
-    <div className="h-screen flex flex-col overflow-hidden">
+    <div className="flex h-screen flex-col overflow-hidden">
       <EditorTopbar
         downloading={downloading}
         isLoggedIn={isLoggedIn}
@@ -805,9 +813,9 @@ export function EditorClient({ templateId }: { templateId: string }) {
       />
 
       {/* ── Desktop layout (lg+) ── */}
-      <div className="flex-1 hidden lg:flex overflow-hidden">
+      <div className="hidden flex-1 overflow-hidden lg:flex">
         <aside
-          className={`${panelClass} border-r border-l-0 border-t-0 border-b-0`}
+          className={`${panelClass} border-t-0 border-r border-b-0 border-l-0`}
         >
           <MetadataPanel templateDefaults={template.defaults.metadata} />
         </aside>
@@ -815,19 +823,19 @@ export function EditorClient({ templateId }: { templateId: string }) {
         <PreviewContainer previewRef={previewRef} template={template} />
 
         <aside
-          className={`${panelClass} border-l border-r-0 border-t-0 border-b-0`}
+          className={`${panelClass} border-t-0 border-r-0 border-b-0 border-l`}
         >
           <CustomizationsPanel template={template} />
         </aside>
       </div>
 
       {/* ── Mobile layout (<lg) ── */}
-      <div className="flex-1 flex flex-col overflow-hidden lg:hidden">
+      <div className="flex flex-1 flex-col overflow-hidden lg:hidden">
         <Tabs
-          className="flex-1 flex flex-col overflow-hidden gap-0"
+          className="flex flex-1 flex-col gap-0 overflow-hidden"
           defaultValue="preview"
         >
-          <TabsList className="shrink-0 rounded-none border-b w-full justify-start px-4 h-10 bg-background">
+          <TabsList className="h-10 w-full shrink-0 justify-start rounded-none border-b bg-background px-4">
             <TabsTab value="metadata">Metadata</TabsTab>
             <TabsTab value="preview">Preview</TabsTab>
             <TabsTab value="customize">Customize</TabsTab>

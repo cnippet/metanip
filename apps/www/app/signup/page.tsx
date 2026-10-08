@@ -12,7 +12,7 @@ import { toastManager } from "@/components/ui/toast";
 
 function GitHubIcon() {
   return (
-    <svg viewBox="0 0 24 24" aria-hidden="true" fill="currentColor">
+    <svg aria-hidden="true" fill="currentColor" viewBox="0 0 24 24">
       <path d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0 1 12 6.844a9.59 9.59 0 0 1 2.504.337c1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.02 10.02 0 0 0 22 12.017C22 6.484 17.522 2 12 2z" />
     </svg>
   );
@@ -20,7 +20,7 @@ function GitHubIcon() {
 
 function GoogleIcon() {
   return (
-    <svg viewBox="0 0 24 24" aria-hidden="true">
+    <svg aria-hidden="true" viewBox="0 0 24 24">
       <path
         d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"
         fill="#4285F4"
@@ -54,10 +54,10 @@ export default function SignupPage() {
     e.preventDefault();
     setLoading("email");
     const { error } = await signUp.email({
-      name,
-      email,
-      password,
       callbackURL: "/dashboard",
+      email,
+      name,
+      password,
     });
     if (error) {
       toastManager.add({
@@ -72,7 +72,7 @@ export default function SignupPage() {
 
   async function handleSocial(provider: "google" | "github") {
     setLoading(provider);
-    await signIn.social({ provider, callbackURL: "/dashboard" });
+    await signIn.social({ callbackURL: "/dashboard", provider });
   }
 
   return (
@@ -80,12 +80,12 @@ export default function SignupPage() {
       <div className="w-full max-w-sm space-y-6">
         <div className="space-y-1 text-center">
           <Link
-            href="/"
             className="inline-flex items-center gap-2 font-semibold text-foreground"
+            href="/"
           >
             Metanip
           </Link>
-          <h1 className="text-xl font-semibold">Create an account</h1>
+          <h1 className="font-semibold text-xl">Create an account</h1>
           <p className="text-muted-foreground text-sm">
             Save presets and generation history
           </p>
@@ -93,21 +93,21 @@ export default function SignupPage() {
 
         <div className="space-y-3">
           <Button
-            variant="outline"
             className="w-full"
-            loading={loading === "google"}
             disabled={loading !== null}
+            loading={loading === "google"}
             onClick={() => handleSocial("google")}
+            variant="outline"
           >
             <GoogleIcon />
             Continue with Google
           </Button>
           <Button
-            variant="outline"
             className="w-full"
-            loading={loading === "github"}
             disabled={loading !== null}
+            loading={loading === "github"}
             onClick={() => handleSocial("github")}
+            variant="outline"
           >
             <GitHubIcon />
             Continue with GitHub
@@ -120,49 +120,49 @@ export default function SignupPage() {
           <Separator className="flex-1" />
         </div>
 
-        <form onSubmit={handleEmailSignUp} className="space-y-4">
+        <form className="space-y-4" onSubmit={handleEmailSignUp}>
           <div className="space-y-1.5">
             <Label htmlFor="name">Name</Label>
             <Input
-              id="name"
-              type="text"
-              placeholder="Your name"
               autoComplete="name"
-              required
-              value={name}
+              id="name"
               onChange={(e) => setName(e.target.value)}
+              placeholder="Your name"
+              required
+              type="text"
+              value={name}
             />
           </div>
           <div className="space-y-1.5">
             <Label htmlFor="email">Email</Label>
             <Input
-              id="email"
-              type="email"
-              placeholder="you@example.com"
               autoComplete="email"
-              required
-              value={email}
+              id="email"
               onChange={(e) => setEmail(e.target.value)}
+              placeholder="you@example.com"
+              required
+              type="email"
+              value={email}
             />
           </div>
           <div className="space-y-1.5">
             <Label htmlFor="password">Password</Label>
             <Input
-              id="password"
-              type="password"
-              placeholder="••••••••"
               autoComplete="new-password"
-              required
+              id="password"
               minLength={8}
-              value={password}
               onChange={(e) => setPassword(e.target.value)}
+              placeholder="••••••••"
+              required
+              type="password"
+              value={password}
             />
           </div>
           <Button
-            type="submit"
             className="w-full"
-            loading={loading === "email"}
             disabled={loading !== null}
+            loading={loading === "email"}
+            type="submit"
           >
             Create account
           </Button>
@@ -171,8 +171,8 @@ export default function SignupPage() {
         <p className="text-center text-muted-foreground text-xs">
           Already have an account?{" "}
           <Link
-            href="/login"
             className="text-foreground underline underline-offset-4"
+            href="/login"
           >
             Sign in
           </Link>

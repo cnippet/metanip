@@ -1,3 +1,5 @@
+//biome-ignore-all lint/style/noNonNullAssertion:<>
+
 "use client";
 
 import { CopyIcon, KeyRoundIcon, PlusIcon, TrashIcon } from "lucide-react";
@@ -19,8 +21,8 @@ type ApiKey = {
 function formatDate(iso: string | null) {
   if (!iso) return "Never";
   return new Date(iso).toLocaleDateString("en-US", {
-    month: "short",
     day: "numeric",
+    month: "short",
     year: "numeric",
   });
 }
@@ -52,16 +54,16 @@ function KeyRow({
 
   return (
     <div className="flex items-center justify-between gap-4 rounded-lg border bg-card px-4 py-3">
-      <div className="flex items-center gap-3 min-w-0">
-        <KeyRoundIcon className="size-4 text-muted-foreground shrink-0" />
+      <div className="flex min-w-0 items-center gap-3">
+        <KeyRoundIcon className="size-4 shrink-0 text-muted-foreground" />
         <div className="min-w-0">
-          <p className="font-medium text-sm truncate">{apiKey.name}</p>
-          <p className="text-xs font-mono text-muted-foreground">
+          <p className="truncate font-medium text-sm">{apiKey.name}</p>
+          <p className="font-mono text-muted-foreground text-xs">
             {apiKey.keyPrefix}
           </p>
         </div>
       </div>
-      <div className="hidden sm:flex items-center gap-6 text-xs text-muted-foreground shrink-0">
+      <div className="hidden shrink-0 items-center gap-6 text-muted-foreground text-xs sm:flex">
         <div className="text-right">
           <p className="font-medium text-foreground">
             {apiKey.usageCount.toLocaleString()}
@@ -111,14 +113,14 @@ function NewKeyRevealDialog({
 
   return (
     <Dialog
-      open
       onOpenChange={(open) => {
         if (!open) onClose();
       }}
+      open
     >
       <DialogPopup className="p-6">
         <DialogTitle>Copy your API key</DialogTitle>
-        <p className="text-sm text-muted-foreground mt-1 mb-4">
+        <p className="mt-1 mb-4 text-muted-foreground text-sm">
           This key will only be shown once. Store it somewhere safe.
         </p>
         <div className="flex gap-2">
@@ -128,12 +130,12 @@ function NewKeyRevealDialog({
             readOnly
             value={rawKey}
           />
-          <Button onClick={handleCopy} variant="outline" size="icon">
+          <Button onClick={handleCopy} size="icon" variant="outline">
             <CopyIcon className="size-4" />
           </Button>
         </div>
         {copied && (
-          <p className="text-xs text-muted-foreground mt-2">
+          <p className="mt-2 text-muted-foreground text-xs">
             Copied to clipboard!
           </p>
         )}
@@ -157,9 +159,9 @@ export function ApiKeyManager({ initialKeys }: { initialKeys: ApiKey[] }) {
     setCreating(true);
     try {
       const res = await fetch("/api/api-keys", {
-        method: "POST",
-        headers: { "content-type": "application/json" },
         body: JSON.stringify({ name: newKeyName }),
+        headers: { "content-type": "application/json" },
+        method: "POST",
       });
       const json = (await res.json()) as {
         apiKey?: {
@@ -180,7 +182,7 @@ export function ApiKeyManager({ initialKeys }: { initialKeys: ApiKey[] }) {
       }
       const { rawKey, ...keyData } = json.apiKey!;
       setKeys((prev) => [
-        { ...keyData, usageCount: 0, lastUsedAt: null },
+        { ...keyData, lastUsedAt: null, usageCount: 0 },
         ...prev,
       ]);
       setRevealedKey(rawKey);
@@ -201,8 +203,8 @@ export function ApiKeyManager({ initialKeys }: { initialKeys: ApiKey[] }) {
     <>
       {revealedKey && (
         <NewKeyRevealDialog
-          rawKey={revealedKey}
           onClose={() => setRevealedKey(null)}
+          rawKey={revealedKey}
         />
       )}
 
@@ -210,8 +212,8 @@ export function ApiKeyManager({ initialKeys }: { initialKeys: ApiKey[] }) {
         {/* Create form */}
         {showCreate ? (
           <form
-            onSubmit={handleCreate}
             className="flex gap-2 rounded-lg border bg-card px-4 py-3"
+            onSubmit={handleCreate}
           >
             <Input
               autoFocus
@@ -255,7 +257,7 @@ export function ApiKeyManager({ initialKeys }: { initialKeys: ApiKey[] }) {
 
         {/* Key list */}
         {keys.length === 0 ? (
-          <div className="py-12 text-center text-sm text-muted-foreground rounded-lg border border-dashed">
+          <div className="rounded-lg border border-dashed py-12 text-center text-muted-foreground text-sm">
             No API keys yet. Create one to start using the API.
           </div>
         ) : (
@@ -267,7 +269,7 @@ export function ApiKeyManager({ initialKeys }: { initialKeys: ApiKey[] }) {
         )}
 
         {/* Rate limit info */}
-        <p className="text-xs text-muted-foreground pt-2">
+        <p className="pt-2 text-muted-foreground text-xs">
           Rate limits:{" "}
           <span className="font-medium text-foreground">
             100 requests / day

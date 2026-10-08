@@ -1,3 +1,6 @@
+//biome-ignore-all lint/style/noNonNullAssertion:<>
+//biome-ignore-all lint/suspicious/noImplicitAnyLet:<
+
 "use client";
 
 import { MetadataSchema } from "@repo/metadata";
@@ -39,7 +42,7 @@ function PresetThumbnail({ preset }: { preset: RawPreset }) {
 
   if (!template) {
     return (
-      <div className="aspect-video bg-muted flex items-center justify-center text-xs text-muted-foreground">
+      <div className="flex aspect-video items-center justify-center bg-muted text-muted-foreground text-xs">
         Unknown template
       </div>
     );
@@ -125,9 +128,9 @@ export function PresetsGrid({
 
   if (presets.length === 0) {
     return (
-      <div className="text-center py-20 text-muted-foreground">
+      <div className="py-20 text-center text-muted-foreground">
         <p className="text-sm">No presets saved yet.</p>
-        <p className="text-xs mt-1">
+        <p className="mt-1 text-xs">
           Open the editor and click &quot;Save preset&quot; to save your first
           one.
         </p>
@@ -136,23 +139,23 @@ export function PresetsGrid({
   }
 
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+    <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
       {presets.map((preset) => (
         <div
+          className="overflow-hidden rounded-xl border bg-card shadow-xs/5 transition-shadow hover:shadow-md"
           key={preset.id}
-          className="rounded-xl border bg-card overflow-hidden shadow-xs/5 hover:shadow-md transition-shadow"
         >
-          <Link href={getEditorUrl(preset)} className="block">
+          <Link className="block" href={getEditorUrl(preset)}>
             <PresetThumbnail preset={preset} />
           </Link>
           <div className="flex items-center justify-between px-4 py-3">
             <div className="min-w-0">
-              <p className="font-medium text-sm truncate">{preset.name}</p>
-              <p className="text-xs text-muted-foreground mt-0.5">
+              <p className="truncate font-medium text-sm">{preset.name}</p>
+              <p className="mt-0.5 text-muted-foreground text-xs">
                 {new Date(preset.createdAt).toLocaleDateString()}
               </p>
             </div>
-            <div className="flex items-center gap-2 shrink-0 ml-2">
+            <div className="ml-2 flex shrink-0 items-center gap-2">
               <Badge variant="secondary">{preset.templateId}</Badge>
               <Button
                 loading={deleting === preset.id}

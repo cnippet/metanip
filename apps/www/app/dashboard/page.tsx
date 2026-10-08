@@ -1,15 +1,15 @@
-import { prisma } from "@repo/database";
 import { auth } from "@repo/auth/server";
+import { prisma } from "@repo/database";
 import {
+  BookmarkIcon,
   HistoryIcon,
   KeyRoundIcon,
   LayoutDashboardIcon,
-  BookmarkIcon,
 } from "lucide-react";
 import { headers } from "next/headers";
+import Link from "next/link";
 import { redirect } from "next/navigation";
 import { Button } from "@/components/ui/button";
-import Link from "next/link";
 
 export default async function DashboardPage() {
   const session = await auth.api.getSession({ headers: await headers() });
@@ -35,7 +35,7 @@ export default async function DashboardPage() {
             <LayoutDashboardIcon className="size-4" />
             Dashboard
           </div>
-          <h1 className="text-2xl font-semibold">Hello, {firstName}!</h1>
+          <h1 className="font-semibold text-2xl">Hello, {firstName}!</h1>
           <p className="text-muted-foreground text-sm">{user.email}</p>
         </div>
         <Button render={<Link href="/" />}>Create image</Button>
@@ -43,42 +43,42 @@ export default async function DashboardPage() {
 
       <div className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
         <Link
+          className="space-y-2 rounded-xl border bg-card p-6 transition-all hover:border-foreground/20 hover:shadow-sm"
           href="/dashboard/presets"
-          className="rounded-xl border bg-card p-6 space-y-2 hover:border-foreground/20 hover:shadow-sm transition-all"
         >
           <div className="flex items-center justify-between">
             <p className="font-medium text-sm">Presets</p>
             <BookmarkIcon className="size-4 text-muted-foreground" />
           </div>
-          <p className="text-3xl font-semibold">{presetCount}</p>
+          <p className="font-semibold text-3xl">{presetCount}</p>
           <p className="text-muted-foreground text-xs">
             Saved template configurations
           </p>
         </Link>
 
         <Link
+          className="space-y-2 rounded-xl border bg-card p-6 transition-all hover:border-foreground/20 hover:shadow-sm"
           href="/dashboard/history"
-          className="rounded-xl border bg-card p-6 space-y-2 hover:border-foreground/20 hover:shadow-sm transition-all"
         >
           <div className="flex items-center justify-between">
             <p className="font-medium text-sm">Generations</p>
             <HistoryIcon className="size-4 text-muted-foreground" />
           </div>
-          <p className="text-3xl font-semibold">{generationCount}</p>
+          <p className="font-semibold text-3xl">{generationCount}</p>
           <p className="text-muted-foreground text-xs">
             Images generated so far
           </p>
         </Link>
 
         <Link
+          className="space-y-2 rounded-xl border bg-card p-6 transition-all hover:border-foreground/20 hover:shadow-sm"
           href="/dashboard/api-keys"
-          className="rounded-xl border bg-card p-6 space-y-2 hover:border-foreground/20 hover:shadow-sm transition-all"
         >
           <div className="flex items-center justify-between">
             <p className="font-medium text-sm">API Keys</p>
             <KeyRoundIcon className="size-4 text-muted-foreground" />
           </div>
-          <p className="text-3xl font-semibold">{apiKeyCount}</p>
+          <p className="font-semibold text-3xl">{apiKeyCount}</p>
           <p className="text-muted-foreground text-xs">
             Active keys · 100 req / day each
           </p>

@@ -44,18 +44,18 @@ function UserMenu({
   return (
     <DropdownMenu>
       <DropdownMenuTrigger
-        className="rounded-full outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-1 focus-visible:ring-offset-background"
         aria-label="User menu"
+        className="rounded-full outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-1 focus-visible:ring-offset-background"
       >
         <Avatar className="size-8">
-          {image && <AvatarImage src={image} alt={name} />}
+          {image && <AvatarImage alt={name} src={image} />}
           <AvatarFallback>{initials}</AvatarFallback>
         </Avatar>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end" side="bottom" sideOffset={8}>
         <div className="px-2 py-1.5">
-          <p className="text-sm font-medium leading-none">{name}</p>
-          <p className="text-xs text-muted-foreground mt-0.5">{email}</p>
+          <p className="font-medium text-sm leading-none">{name}</p>
+          <p className="mt-0.5 text-muted-foreground text-xs">{email}</p>
         </div>
         <DropdownMenuSeparator />
         <DropdownMenuItem render={<Link href="/dashboard" />}>
@@ -80,8 +80,8 @@ export function Header() {
     <header className="sticky top-0 z-40 border-b bg-background/80 backdrop-blur-sm">
       <div className="mx-auto flex h-14 max-w-7xl items-center justify-between px-4 sm:px-6">
         <Link
+          className="flex items-center gap-2 font-semibold text-foreground transition-opacity hover:opacity-80"
           href="/"
-          className="flex items-center gap-2 font-semibold text-foreground hover:opacity-80 transition-opacity"
         >
           <ImageIcon className="size-5" />
           Metanip
@@ -91,9 +91,9 @@ export function Header() {
           {isPending ? (
             <div className="size-8 animate-pulse rounded-full bg-muted" />
           ) : user ? (
-            <UserMenu name={user.name} email={user.email} image={user.image} />
+            <UserMenu email={user.email} image={user.image} name={user.name} />
           ) : (
-            <Button variant="outline" size="sm" render={<Link href="/login" />}>
+            <Button render={<Link href="/login" />} size="sm" variant="outline">
               <UserIcon />
               Sign in
             </Button>

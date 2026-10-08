@@ -1,10 +1,12 @@
+//biome-ignore-all lint/style/noNonNullAssertion:<>
+
 "use client";
 
 import { type Metadata, MetadataSchema } from "@repo/metadata";
 import {
+  getAllCategories,
   type TemplateCategory,
   type TemplateDefinition,
-  getAllCategories,
   templates,
 } from "@repo/templates";
 import { LinkIcon, SearchIcon, UploadIcon, XIcon } from "lucide-react";
@@ -47,7 +49,7 @@ function TemplateCard({
 
   return (
     <button
-      className="group rounded-xl border bg-card text-left overflow-hidden shadow-xs/5 hover:shadow-md transition-shadow focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+      className="group overflow-hidden rounded-xl border bg-card text-left shadow-xs/5 transition-shadow hover:shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
       onClick={onClick}
       type="button"
     >
@@ -75,7 +77,7 @@ function TemplateCard({
         </div>
       </div>
       <div className="flex items-center justify-between px-4 py-3">
-        <p className="font-medium text-sm text-foreground">{name}</p>
+        <p className="font-medium text-foreground text-sm">{name}</p>
         <Badge variant="secondary">{category}</Badge>
       </div>
     </button>
@@ -95,19 +97,19 @@ function MetadataSummaryCard({
 }) {
   return (
     <div className="flex items-start gap-3 rounded-lg border border-success/30 bg-success/5 px-4 py-3">
-      <div className="flex-1 min-w-0">
-        <p className="text-xs text-success-foreground font-medium mb-0.5">
+      <div className="min-w-0 flex-1">
+        <p className="mb-0.5 font-medium text-success-foreground text-xs">
           {source === "url" ? "Scraped from URL" : "Parsed from file"}
         </p>
-        <p className="font-semibold text-sm text-foreground truncate">
+        <p className="truncate font-semibold text-foreground text-sm">
           {metadata.title}
         </p>
         {metadata.description && (
-          <p className="text-xs text-muted-foreground mt-0.5 line-clamp-2">
+          <p className="mt-0.5 line-clamp-2 text-muted-foreground text-xs">
             {metadata.description}
           </p>
         )}
-        <div className="flex flex-wrap gap-1 mt-1.5">
+        <div className="mt-1.5 flex flex-wrap gap-1">
           {metadata.author && (
             <Badge size="sm" variant="outline">
               {metadata.author}
@@ -127,7 +129,7 @@ function MetadataSummaryCard({
       </div>
       <button
         aria-label="Clear metadata"
-        className="shrink-0 text-muted-foreground hover:text-foreground transition-colors"
+        className="shrink-0 text-muted-foreground transition-colors hover:text-foreground"
         onClick={onClear}
         type="button"
       >
@@ -142,14 +144,14 @@ function MetadataSummaryCard({
 type Scraped = { source: "url" | "file"; data: Metadata };
 
 const CATEGORY_LABELS: Record<TemplateCategory, string> = {
-  minimal: "Minimal",
   bold: "Bold",
   dev: "Dev",
+  editorial: "Editorial",
+  minimal: "Minimal",
+  newsletter: "Newsletter",
+  photo: "Photo",
   podcast: "Podcast",
   social: "Social",
-  photo: "Photo",
-  editorial: "Editorial",
-  newsletter: "Newsletter",
 };
 
 export default function Home() {
@@ -248,26 +250,26 @@ export default function Home() {
 
   return (
     <div className="min-h-screen bg-zinc-50 dark:bg-zinc-950">
-      <div className="max-w-4xl mx-auto px-6 py-16">
+      <div className="mx-auto max-w-4xl px-6 py-16">
         {/* Hero */}
-        <div className="text-center mb-12">
-          <h1 className="text-4xl font-bold tracking-tight text-foreground mb-3">
+        <div className="mb-12 text-center">
+          <h1 className="mb-3 font-bold text-4xl text-foreground tracking-tight">
             Metanip
           </h1>
-          <p className="text-lg text-muted-foreground max-w-md mx-auto">
+          <p className="mx-auto max-w-md text-lg text-muted-foreground">
             Generate beautiful featured images for your blog, social media, and
             more.
           </p>
         </div>
 
         {/* Input section */}
-        <div className="bg-card border rounded-2xl p-6 shadow-xs/5 mb-10">
-          <p className="text-sm font-medium text-foreground mb-3">
+        <div className="mb-10 rounded-2xl border bg-card p-6 shadow-xs/5">
+          <p className="mb-3 font-medium text-foreground text-sm">
             Start with a URL — we&apos;ll extract the metadata for you
           </p>
 
           {/* URL scraper */}
-          <form className="flex gap-2 mb-4" onSubmit={handleScrape}>
+          <form className="mb-4 flex gap-2" onSubmit={handleScrape}>
             <Input
               nativeInput
               onChange={(e) => setUrl((e.target as HTMLInputElement).value)}
@@ -283,9 +285,9 @@ export default function Home() {
           </form>
 
           {/* Divider */}
-          <div className="flex items-center gap-3 mb-4">
+          <div className="mb-4 flex items-center gap-3">
             <Separator className="flex-1" />
-            <span className="text-xs text-muted-foreground">or</span>
+            <span className="text-muted-foreground text-xs">or</span>
             <Separator className="flex-1" />
           </div>
 
@@ -307,14 +309,14 @@ export default function Home() {
               <UploadIcon />
               Upload .md / .mdx
             </Button>
-            <span className="text-xs text-muted-foreground">
+            <span className="text-muted-foreground text-xs">
               We&apos;ll parse frontmatter + content
             </span>
           </div>
 
           {/* Error */}
           {error && (
-            <p className="mt-3 text-sm text-destructive-foreground bg-destructive/8 rounded-md px-3 py-2">
+            <p className="mt-3 rounded-md bg-destructive/8 px-3 py-2 text-destructive-foreground text-sm">
               {error}
             </p>
           )}
@@ -333,9 +335,9 @@ export default function Home() {
 
         {/* Template grid */}
         <div>
-          <div className="flex items-center justify-between mb-4">
+          <div className="mb-4 flex items-center justify-between">
             <h2 className="font-semibold text-foreground">Pick a template</h2>
-            <p className="text-sm text-muted-foreground">
+            <p className="text-muted-foreground text-sm">
               {scraped
                 ? "Metadata ready — click any template to open the editor"
                 : "Click any template to start"}
@@ -343,12 +345,12 @@ export default function Home() {
           </div>
 
           {/* Filters row */}
-          <div className="flex flex-wrap items-center gap-2 mb-5">
+          <div className="mb-5 flex flex-wrap items-center gap-2">
             {/* Search */}
-            <div className="relative flex-1 min-w-[180px] max-w-xs">
-              <SearchIcon className="absolute left-2.5 top-1/2 -translate-y-1/2 size-3.5 text-muted-foreground pointer-events-none" />
+            <div className="relative min-w-[180px] max-w-xs flex-1">
+              <SearchIcon className="pointer-events-none absolute top-1/2 left-2.5 size-3.5 -translate-y-1/2 text-muted-foreground" />
               <input
-                className="w-full rounded-md border border-input bg-background pl-8 pr-3 py-1.5 text-sm placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring"
+                className="w-full rounded-md border border-input bg-background py-1.5 pr-3 pl-8 text-sm placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring"
                 onChange={(e) => setSearch(e.target.value)}
                 placeholder="Search templates…"
                 type="search"
@@ -359,7 +361,7 @@ export default function Home() {
             {/* Category pills */}
             <div className="flex flex-wrap gap-1.5">
               <button
-                className={`rounded-full px-3 py-1 text-xs font-medium transition-colors ${
+                className={`rounded-full px-3 py-1 font-medium text-xs transition-colors ${
                   activeCategory === "all"
                     ? "bg-foreground text-background"
                     : "bg-muted text-muted-foreground hover:bg-muted/80"
@@ -375,12 +377,12 @@ export default function Home() {
                 ).length;
                 return (
                   <button
-                    key={cat}
-                    className={`rounded-full px-3 py-1 text-xs font-medium transition-colors ${
+                    className={`rounded-full px-3 py-1 font-medium text-xs transition-colors ${
                       activeCategory === cat
                         ? "bg-foreground text-background"
                         : "bg-muted text-muted-foreground hover:bg-muted/80"
                     }`}
+                    key={cat}
                     onClick={() => setActiveCategory(cat)}
                     type="button"
                   >
@@ -392,7 +394,7 @@ export default function Home() {
           </div>
 
           {filteredTemplates.length > 0 ? (
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
               {filteredTemplates.map((template) => (
                 <TemplateCard
                   key={template.id}
@@ -402,7 +404,7 @@ export default function Home() {
               ))}
             </div>
           ) : (
-            <div className="py-16 text-center text-sm text-muted-foreground">
+            <div className="py-16 text-center text-muted-foreground text-sm">
               No templates match{" "}
               <span className="font-medium">&quot;{search}&quot;</span>.{" "}
               <button

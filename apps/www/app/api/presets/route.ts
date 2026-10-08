@@ -1,5 +1,5 @@
-import { prisma } from "@repo/database";
 import { auth } from "@repo/auth/server";
+import { prisma } from "@repo/database";
 import { headers } from "next/headers";
 import { NextResponse } from "next/server";
 
@@ -13,19 +13,19 @@ export async function GET(req: Request) {
   const templateId = searchParams.get("templateId");
 
   const presets = await prisma.preset.findMany({
+    orderBy: { createdAt: "desc" },
+    select: {
+      createdAt: true,
+      customizations: true,
+      dimensions: true,
+      id: true,
+      metadata: true,
+      name: true,
+      templateId: true,
+    },
     where: {
       userId: session.user.id,
       ...(templateId ? { templateId } : {}),
-    },
-    orderBy: { createdAt: "desc" },
-    select: {
-      id: true,
-      name: true,
-      templateId: true,
-      metadata: true,
-      customizations: true,
-      dimensions: true,
-      createdAt: true,
     },
   });
 
@@ -55,21 +55,21 @@ export async function POST(req: Request) {
 
   const preset = await prisma.preset.create({
     data: {
-      userId: session.user.id,
-      name: body.name.trim(),
-      templateId: body.templateId,
-      metadata: body.metadata ?? {},
       customizations: body.customizations ?? {},
       dimensions: body.dimensions ?? {},
+      metadata: body.metadata ?? {},
+      name: body.name.trim(),
+      templateId: body.templateId,
+      userId: session.user.id,
     },
     select: {
-      id: true,
-      name: true,
-      templateId: true,
-      metadata: true,
+      createdAt: true,
       customizations: true,
       dimensions: true,
-      createdAt: true,
+      id: true,
+      metadata: true,
+      name: true,
+      templateId: true,
     },
   });
 

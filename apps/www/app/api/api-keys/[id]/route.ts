@@ -1,5 +1,5 @@
-import { prisma } from "@repo/database";
 import { auth } from "@repo/auth/server";
+import { prisma } from "@repo/database";
 import { headers } from "next/headers";
 import { NextResponse } from "next/server";
 
@@ -14,8 +14,8 @@ export async function DELETE(
   const { id } = await params;
 
   const apiKey = await prisma.apiKey.findUnique({
-    where: { id },
     select: { userId: true },
+    where: { id },
   });
 
   if (!apiKey)
