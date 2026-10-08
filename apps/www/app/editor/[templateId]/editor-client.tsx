@@ -1,13 +1,13 @@
 "use client";
 
+import { useSession } from "@repo/auth/client";
 import { MetadataSchema } from "@repo/metadata";
 import {
   type CustomizationControl,
+  type Dimension,
   getTemplate,
   type TemplateDefinition,
-  type Dimension,
 } from "@repo/templates";
-import { useSession } from "@repo/auth/client";
 import {
   ArrowLeftIcon,
   BookmarkIcon,
@@ -490,7 +490,7 @@ function SavePresetModal({
   }
 
   return (
-    <Dialog open={open} onOpenChange={onOpenChange}>
+    <Dialog onOpenChange={onOpenChange} open={open}>
       <DialogContent showCloseButton>
         <form onSubmit={handleSubmit}>
           <DialogHeader>
@@ -511,7 +511,7 @@ function SavePresetModal({
             </div>
           </div>
           <DialogFooter>
-            <DialogClose render={<Button variant="outline" type="button" />}>
+            <DialogClose render={<Button type="button" variant="outline" />}>
               Cancel
             </DialogClose>
             <Button disabled={!name.trim()} loading={saving} type="submit">
@@ -642,7 +642,7 @@ function EditorTopbar({
 
 export function EditorClient({ templateId }: { templateId: string }) {
   const template = useMemo(() => getTemplate(templateId)!, [templateId]);
-  const { init, resetCustomizations, ...store } = useEditorStore();
+  const { init, ...store } = useEditorStore();
   const { data: session } = useSession();
   const isLoggedIn = Boolean(session?.user);
   const searchParams = useSearchParams();
@@ -696,11 +696,11 @@ export function EditorClient({ templateId }: { templateId: string }) {
     try {
       const res = await fetch("/api/presets", {
         body: JSON.stringify({
-          name,
-          templateId,
-          metadata: store.metadata,
           customizations: store.customizations,
           dimensions: store.dimensions,
+          metadata: store.metadata,
+          name,
+          templateId,
         }),
         headers: { "content-type": "application/json" },
         method: "POST",
@@ -720,10 +720,10 @@ export function EditorClient({ templateId }: { templateId: string }) {
   function handleLoadPreset(preset: SavedPreset) {
     try {
       init({
-        templateId,
-        metadata: MetadataSchema.parse(preset.metadata),
         customizations: preset.customizations as Record<string, unknown>,
         dimensions: preset.dimensions as Dimension,
+        metadata: MetadataSchema.parse(preset.metadata),
+        templateId,
       });
       toastManager.add({ title: `Loaded "${preset.name}"`, type: "success" });
     } catch {
@@ -754,10 +754,10 @@ export function EditorClient({ templateId }: { templateId: string }) {
       if (isLoggedIn) {
         fetch("/api/generations", {
           body: JSON.stringify({
-            templateId,
-            metadata: store.metadata,
             customizations: store.customizations,
             dataUrl: png,
+            metadata: store.metadata,
+            templateId,
           }),
           headers: { "content-type": "application/json" },
           method: "POST",

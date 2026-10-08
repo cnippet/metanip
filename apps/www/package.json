@@ -1,12 +1,4 @@
 {
-  "name": "www",
-  "version": "0.1.0",
-  "private": true,
-  "scripts": {
-    "dev": "next dev",
-    "build": "next build",
-    "start": "next start"
-  },
   "dependencies": {
     "@base-ui/react": "^1.5.0",
     "@repo/auth": "workspace:*",
@@ -24,7 +16,6 @@
     "html-to-image": "^1.11.13",
     "lucide-react": "^1.17.0",
     "next": "16.2.6",
-    "next-auth": "^4.24.14",
     "react": "19.2.4",
     "react-day-picker": "^10.0.1",
     "react-dom": "19.2.4",
@@ -33,11 +24,13 @@
     "zustand": "^5.0.14"
   },
   "devDependencies": {
+    "@repo/eslint-config": "*",
     "@tailwindcss/postcss": "^4",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "babel-plugin-react-compiler": "1.0.0",
+    "eslint": "^9.39.1",
     "tailwindcss": "^4",
     "typescript": "^5"
   },
@@ -45,8 +38,18 @@
     "sharp",
     "unrs-resolver"
   ],
+  "name": "www",
+  "private": true,
+  "scripts": {
+    "build": "next build",
+    "check-types": "tsc --noEmit",
+    "dev": "next dev",
+    "lint": "eslint . --max-warnings 0",
+    "start": "next start"
+  },
   "trustedDependencies": [
     "sharp",
     "unrs-resolver"
-  ]
+  ],
+  "version": "0.1.0"
 }

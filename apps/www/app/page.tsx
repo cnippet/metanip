@@ -263,7 +263,7 @@ export default function Home() {
         {/* Input section */}
         <div className="bg-card border rounded-2xl p-6 shadow-xs/5 mb-10">
           <p className="text-sm font-medium text-foreground mb-3">
-            Start with a URL — we'll extract the metadata for you
+            Start with a URL — we&apos;ll extract the metadata for you
           </p>
 
           {/* URL scraper */}
@@ -308,7 +308,7 @@ export default function Home() {
               Upload .md / .mdx
             </Button>
             <span className="text-xs text-muted-foreground">
-              We'll parse frontmatter + content
+              We&apos;ll parse frontmatter + content
             </span>
           </div>
 
@@ -403,8 +403,8 @@ export default function Home() {
             </div>
           ) : (
             <div className="py-16 text-center text-sm text-muted-foreground">
-              No templates match <span className="font-medium">"{search}"</span>
-              .{" "}
+              No templates match{" "}
+              <span className="font-medium">&quot;{search}&quot;</span>.{" "}
               <button
                 className="underline underline-offset-2"
                 onClick={() => {

@@ -1,8 +1,8 @@
 diff --git a/dist/index.js b/dist/index.js
-index 1234567..abcdef0 100644
 --- a/dist/index.js
 +++ b/dist/index.js
-@@ -252,3 +252,5 @@ export * from './util/log.js';
+@@ -198,3 +198,5 @@
+ export * from './util/log.js';
  export { logOnce } from './util/log-once.js';
  export { createQueryId } from './util/query-id.js';
 +
